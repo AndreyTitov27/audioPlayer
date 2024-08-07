@@ -159,11 +159,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="fileOptions.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainWindow.cpp" />
+    <ClCompile Include="musicButton.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mainWindow.hpp" />
+    <ClInclude Include="musicButton.hpp" />
+    <ClInclude Include="styles.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
