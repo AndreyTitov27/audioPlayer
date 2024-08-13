@@ -24,12 +24,18 @@
     <ClCompile Include="musicButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="fileOptions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mainWindow.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="musicButton.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="styles.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
