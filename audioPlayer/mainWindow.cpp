@@ -4,15 +4,13 @@
 #include <QtCore/QUrl>
 
 MainWindow::MainWindow() {
-	selectSingleTrackButton = nullptr;
-	selectMultipleTracksButton = nullptr;
 	isShownFileOptions = false;
 	trackNumber = -1;
+	currentTrackNumber = -1;
 
 	player = new QMediaPlayer(this);
 	audioOutput = new QAudioOutput(this);
 	player->setAudioOutput(audioOutput);
-	//audioOutput->setVolume(0.5F);
 	playlist = new QList<MusicButton*>;
 	trackPositionSlider = new QSlider(Qt::Horizontal, this);
 	trackVolumeSlider = new QSlider(Qt::Horizontal, this);
@@ -20,13 +18,13 @@ MainWindow::MainWindow() {
 	trackPositionSlider->setRange(0, player->duration() / 1000);
 	trackVolumeSlider->setRange(0, 100);
 	trackVolumeSlider->setValue(50);
-	trackVolumeSlider->setMinimumWidth(100);
+	trackVolumeSlider->setMinimumWidth(120);
 	trackVolumeSlider->setMaximumWidth(120);
 	trackVolumeSlider->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
 
 	trackPositionSliderLayout = new QVBoxLayout();
 	trackVolumeSliderLayout = new QVBoxLayout();
-	
+
 	trackPositionSliderLayout->addWidget(trackPositionSlider);
 	trackVolumeSliderLayout->addWidget(trackVolumeSlider);
 	trackVolumeSliderLayout->setAlignment(Qt::AlignLeft);
@@ -39,24 +37,34 @@ MainWindow::MainWindow() {
 
 	connect(trackVolumeSlider, &QSlider::valueChanged, this, &MainWindow::setTrackVolume);
 
+	playerButtonsLayoutV = new QVBoxLayout();
+	playerButtonsLayoutH = new QHBoxLayout();
+
 	centralWidget = new QWidget(this);
-	//centralWidget->setStyleSheet("border: 1px solid #5DE2E7;");
+	centralWidget->setStyleSheet("border: 1px solid #5DE2E7;");
 	mainLayout = new QVBoxLayout(centralWidget);
 	bottomLayout = new QHBoxLayout();
 	bottomLayout->setAlignment(Qt::AlignBottom);
+	bottomLeftLayout = new QVBoxLayout();
+	bottomLeftLayout->setAlignment(Qt::AlignBottom);
+	bottomRightLayout = new QVBoxLayout();
+	bottomRightLayout->setAlignment(Qt::AlignBottom);
+	bottomLayout->addLayout(bottomLeftLayout);
+	bottomLayout->addLayout(bottomRightLayout);
 	overBottomLayout = new QHBoxLayout();
 	overBottomLayout->setAlignment(Qt::AlignBottom);
+
 	centralLayoutH = new QHBoxLayout();
+	centralLayoutH->setAlignment(Qt::AlignBottom);
 	leftLayout = new QVBoxLayout();
 	leftLayout->setAlignment(Qt::AlignLeft);
 	rightLayout = new QVBoxLayout();
+	rightLayout->setAlignment(Qt::AlignBottom);
 	setCentralWidget(centralWidget);
 
 	manageTracksLayoutV = new QVBoxLayout();
 	manageTracksLayoutH = new QHBoxLayout();
 	tracksLayout = new QVBoxLayout();
-	addTrackOptionsLayout = new QVBoxLayout();
-	addTrackOptionsLayout->setAlignment(Qt::AlignLeft);
 
 	tracksScrollArea = new QScrollArea();
 	tracksScrollAreaWidget = new QWidget();
@@ -65,11 +73,9 @@ MainWindow::MainWindow() {
 	tracksScrollArea->setWidget(tracksScrollAreaWidget);
 	tracksScrollArea->setWidgetResizable(true);
 	tracksScrollArea->setStyleSheet(scrollAreaStyle);
+	tracksScrollArea->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
 	tracksLayout->addWidget(tracksScrollArea);
-
-	playerButtonsLayoutV = new QVBoxLayout();
-	playerButtonsLayoutH = new QHBoxLayout();
 
 	previousTrackButton = new QPushButton("<-", this);
 	previousTrackButton->setFixedSize(50, 50);
@@ -87,18 +93,17 @@ MainWindow::MainWindow() {
 	connect(nextTrackButton, &QPushButton::clicked, this, &MainWindow::nextTrack);
 
 	loopButton = new QPushButton("O", this);
-	loopButton->setFixedSize(50, 50);
+	loopButton->setFixedSize(50, 35);
 	loopButton->setStyleSheet(manageButtonsStyle);
+
+	loopButtonLayout = new QVBoxLayout();
+	loopButtonLayout->addWidget(loopButton, Qt::AlignRight);
 
 
 	playerButtonsLayoutH->addWidget(previousTrackButton);
 	playerButtonsLayoutH->addWidget(playStopButton);
 	playerButtonsLayoutH->addWidget(nextTrackButton);
-	playerButtonsLayoutH->setAlignment(Qt::AlignCenter);
-
-	playerButtonsLayoutV->addLayout(playerButtonsLayoutH);
-	//playerButtonsLayoutV->setAlignment(Qt::AlignCenter);
-	//playerButtonsLayoutV->addItem(new QSpacerItem(20, 10, QSizePolicy::Expanding, QSizePolicy::Expanding));
+	playerButtonsLayoutH->setAlignment(Qt::AlignBottom);
 
 	trackCoverLayoutV = new QVBoxLayout();
 	trackCoverLayoutH = new QHBoxLayout();
@@ -114,13 +119,9 @@ MainWindow::MainWindow() {
 	trackCoverLayoutV->setAlignment(Qt::AlignTop);
 	trackCoverLayoutH->setAlignment(Qt::AlignLeft);
 
-	manageTracksLayoutV->addLayout(addTrackOptionsLayout);
-	manageTracksLayoutV->addLayout(manageTracksLayoutH);
-
-	
-
+	//manageTracksLayoutV->addLayout(manageTracksLayoutH);
 	manageTracksLayoutV->setAlignment(Qt::AlignBottom);
-	manageTracksLayoutH->setAlignment(Qt::AlignLeft);
+	manageTracksLayoutH->setAlignment(Qt::AlignRight);
 
 	QFont manageTrackButtonsFont;
 	manageTrackButtonsFont.setPointSize(14);
@@ -132,8 +133,8 @@ MainWindow::MainWindow() {
 	addTrackButton->setFont(manageTrackButtonsFont);
 	addTrackButton->setStyleSheet(manageButtonsStyle);
 	addTrackButton->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-	
-	connect(addTrackButton, &QPushButton::clicked, this, &MainWindow::showFileOptions);
+
+	connect(addTrackButton, &QPushButton::clicked, this, &MainWindow::selectMultipleFiles);
 
 	removeTrackButton = new QPushButton("-");
 	removeTrackButton->setMinimumSize(35, 35);
@@ -151,19 +152,23 @@ MainWindow::MainWindow() {
 	moveTrackButton->setStyleSheet(manageButtonsStyle);
 	moveTrackButton->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 
-	manageTracksLayoutH->addWidget(addTrackButton);
-	manageTracksLayoutH->addWidget(removeTrackButton);
-	manageTracksLayoutH->addWidget(moveTrackButton);
-	manageTracksLayoutH->addLayout(trackPositionSliderLayout);
-	
-	bottomLayout->addLayout(manageTracksLayoutV);
-	//bottomLayout->addLayout(trackPositionSliderLayout); moved to manageTracksLayoutH
-	overBottomLayout->addLayout(trackVolumeSliderLayout);
-	overBottomLayout->addSpacerItem(new QSpacerItem(30, 20, QSizePolicy::Expanding, QSizePolicy::Minimum));
-	overBottomLayout->addLayout(playerButtonsLayoutV);
-	overBottomLayout->addSpacerItem(new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum));
-	//overBottomLayout->addLayout(playerButtonsLayoutH);
-	overBottomLayout->addWidget(loopButton, Qt::AlignRight);
+	manageTracksLayoutH->addWidget(addTrackButton, Qt::AlignBottom);
+	manageTracksLayoutH->addWidget(removeTrackButton, Qt::AlignBottom);
+	manageTracksLayoutH->addWidget(moveTrackButton, Qt::AlignBottom);
+
+	bottomLeftLayout->addLayout(playerButtonsLayoutH);
+	bottomLeftLayout->addLayout(loopButtonLayout);
+	bottomRightLayout->addLayout(trackPositionSliderLayout);
+	bottomRightLayout->addItem(new QSpacerItem(0, 20, QSizePolicy::Minimum, QSizePolicy::Minimum));
+	bottomRightLayout->addLayout(trackVolumeSliderLayout);
+	bottomRightLayout->addItem(new QSpacerItem(0, 10, QSizePolicy::Minimum, QSizePolicy::Minimum));
+
+	//overBottomLayout->addLayout(manageTracksLayoutV);
+	superBottomLayout = new QVBoxLayout();
+	superBottomLayout->addLayout(manageTracksLayoutH);
+	superBottomLayout->addLayout(bottomLayout);
+	superBottomLayout->setAlignment(Qt::AlignBottom);
+
 	centralLayoutH->addLayout(leftLayout);
 	centralLayoutH->addLayout(rightLayout);
 
@@ -172,10 +177,10 @@ MainWindow::MainWindow() {
 	rightLayout->addLayout(tracksLayout);
 
 	mainLayout->addLayout(centralLayoutH);
-	mainLayout->addLayout(overBottomLayout);
-	mainLayout->addLayout(bottomLayout);
-	
-	setMinimumSize(400, 300);
+	//mainLayout->addLayout(manageTracksLayoutH); // was overBottomLayout
+	mainLayout->addLayout(superBottomLayout);
+
+	setMinimumSize(500, 350);
 	resize(600, 400);
 	show();
 }
@@ -223,7 +228,7 @@ void MainWindow::nextTrack() {
 	player->play();
 }
 void MainWindow::loop() {
-	
+
 }
 
 void MainWindow::setTrackPosition(int pos) {

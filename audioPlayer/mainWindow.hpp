@@ -48,7 +48,10 @@ private:
     QWidget* tracksScrollAreaWidget;
     QVBoxLayout* tracksScrollAreaLayout;
 
+    QVBoxLayout* superBottomLayout;
     QHBoxLayout* bottomLayout;
+    QVBoxLayout* bottomLeftLayout;
+    QVBoxLayout* bottomRightLayout;
     QHBoxLayout* overBottomLayout;
     QHBoxLayout* centralLayoutH;
     QVBoxLayout* leftLayout;
@@ -57,14 +60,13 @@ private:
     QPushButton* addTrackButton;
     QPushButton* removeTrackButton;
     QPushButton* moveTrackButton;
-    QVBoxLayout* addTrackOptionsLayout;
-    QPushButton* selectSingleTrackButton;
-    QPushButton* selectMultipleTracksButton;
 
     QPushButton* previousTrackButton;
     QPushButton* playStopButton;
     QPushButton* nextTrackButton;
     QPushButton* loopButton;
+
+    QVBoxLayout* loopButtonLayout;
 
     QMediaPlayer* player;
     QAudioOutput* audioOutput;
@@ -80,8 +82,6 @@ private:
     QImage coverImage;
 
 private slots:
-    void showFileOptions();
-    void selectSingleFile();
     void selectMultipleFiles();
 
     void play();
