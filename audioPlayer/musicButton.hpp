@@ -1,5 +1,6 @@
 #ifndef MUSIC_BUTTON_HPP
 #define MUSIC_BUTTON_HPP
+#pragma once
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QVBoxLayout>
@@ -11,7 +12,9 @@ public:
 	QString getTrackPath() {
 		return trackPath;
 	}
+	void setActive(bool active);
 private:
+	static MusicButton* lastMusicButton;
 	bool isActive;
 	QMediaPlayer* player;
 	QString trackPath;
@@ -21,6 +24,7 @@ private:
 	int& numberRef;
 	QVBoxLayout* layout;
 	QHBoxLayout* layoutH;
+
 private slots:
 	void mousePressEvent(QMouseEvent* event) override;
 	void mouseDoubleClickEvent(QMouseEvent* event) override;

@@ -25,7 +25,6 @@
 #include <QtWidgets/QMenuBar>
 
 class MainWindow : public QMainWindow {
-
 public:
     MainWindow();
     void setCurrentTrackNumber(int index) {
@@ -33,53 +32,60 @@ public:
     }
 
 private:
-    bool isShownFileOptions;
     int trackNumber;
     int currentTrackNumber;
+
     QWidget* centralWidget;
     QVBoxLayout* mainLayout;
-    QHBoxLayout* manageTracksLayoutH;
-    QVBoxLayout* manageTracksLayoutV;
-    QVBoxLayout* tracksLayout;
-    QHBoxLayout* playerButtonsLayoutH;
-    QVBoxLayout* playerButtonsLayoutV;
 
+    QHBoxLayout* topLayout;
+    QVBoxLayout* topLeftLayout;
+    QHBoxLayout* trackCoverLayoutH;
+    QVBoxLayout* trackCoverLayoutV;
+    QLabel* trackCoverLabel;
+    QImage coverImage;
+
+    QVBoxLayout* topRightLayout;
+    QVBoxLayout* tracksLayout;
     QScrollArea* tracksScrollArea;
     QWidget* tracksScrollAreaWidget;
     QVBoxLayout* tracksScrollAreaLayout;
 
-    QVBoxLayout* superBottomLayout;
-    QHBoxLayout* bottomLayout;
-    QVBoxLayout* bottomLeftLayout;
-    QVBoxLayout* bottomRightLayout;
-    QHBoxLayout* overBottomLayout;
-    QHBoxLayout* centralLayoutH;
-    QVBoxLayout* leftLayout;
-    QVBoxLayout* rightLayout;
-
+    QVBoxLayout* bottomLayout;
+    QHBoxLayout* bottomUpLayout;
     QPushButton* addTrackButton;
     QPushButton* removeTrackButton;
     QPushButton* moveTrackButton;
+    QHBoxLayout* manageTracksLayoutH;
+    QVBoxLayout* manageTracksLayoutV;
 
+    QHBoxLayout* bottomDownLayout;
+    QVBoxLayout* bottomDownLeftLayout;
     QPushButton* previousTrackButton;
     QPushButton* playStopButton;
     QPushButton* nextTrackButton;
+    QHBoxLayout* playerButtonsLayoutH;
+    QVBoxLayout* playerButtonsLayoutV;
     QPushButton* loopButton;
-
     QVBoxLayout* loopButtonLayout;
 
-    QMediaPlayer* player;
-    QAudioOutput* audioOutput;
-    QList<MusicButton*>* playlist;
+    QVBoxLayout* bottomDownRightLayout;
     QSlider* trackPositionSlider;
     QVBoxLayout* trackPositionSliderLayout;
     QSlider* trackVolumeSlider;
     QVBoxLayout* trackVolumeSliderLayout;
 
-    QHBoxLayout* trackCoverLayoutH;
-    QVBoxLayout* trackCoverLayoutV;
-    QLabel* trackCoverLabel;
-    QImage coverImage;
+    
+
+    
+
+    
+
+    QMediaPlayer* player;
+    QAudioOutput* audioOutput;
+    QList<MusicButton*>* playlist;
+    
+
 
 private slots:
     void selectMultipleFiles();
