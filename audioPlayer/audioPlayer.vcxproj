@@ -182,6 +182,7 @@
     <ClCompile Include="mainWindow.cpp" />
     <ClCompile Include="mainWindowSave.cpp" />
     <ClCompile Include="musicButton.cpp" />
+    <ClCompile Include="playerFunctions.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mainWindow.hpp" />

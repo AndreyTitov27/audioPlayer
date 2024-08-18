@@ -30,6 +30,9 @@
     <ClCompile Include="mainWindowSave.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="playerFunctions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mainWindow.hpp">
@@ -41,8 +44,5 @@
     <ClInclude Include="styles.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>

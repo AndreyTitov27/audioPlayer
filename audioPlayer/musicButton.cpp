@@ -29,7 +29,7 @@ void MusicButton::mousePressEvent(QMouseEvent* event) {
 	if (event->button() == Qt::LeftButton) {
 		if (lastMusicButton != nullptr && lastMusicButton != this)
 			lastMusicButton->setActive(false);
-		numberRef = numberInt;
+		numberRef = numberInt - 1;
 		isActive = true;
 		player->setSource(trackPath);
 		setStyleSheet(musicButtonClickedStyle);
@@ -41,7 +41,7 @@ void MusicButton::mouseDoubleClickEvent(QMouseEvent* event) {
 	if (event->buttons() == Qt::LeftButton) {
 		if (lastMusicButton != nullptr && lastMusicButton != this)
 			lastMusicButton->setActive(false);
-		numberRef = numberInt;
+		numberRef = numberInt - 1;
 		player->setSource(trackPath);
 		player->play();
 		setStyleSheet(musicButtonClickedStyle);

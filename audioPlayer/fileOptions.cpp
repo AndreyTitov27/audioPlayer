@@ -2,7 +2,7 @@
 #include "musicButton.hpp"
 #include "styles.hpp"
 
-void MainWindow::selectMultipleFiles() {
+void MainWindow::selectFiles() {
 	QList<QString>* filePaths = new QList<QString>(QFileDialog::getOpenFileNames(this, "Select Multiple Files", QString(),
 		"Audio Files (*.mp3 *.wav);;All Files (*)"));
 	if (!filePaths->isEmpty()) {

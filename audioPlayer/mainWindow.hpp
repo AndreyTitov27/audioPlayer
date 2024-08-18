@@ -34,6 +34,7 @@ public:
 private:
     int trackNumber;
     int currentTrackNumber;
+    int repeatMode;
 
     QWidget* centralWidget;
     QVBoxLayout* mainLayout;
@@ -66,8 +67,8 @@ private:
     QPushButton* nextTrackButton;
     QHBoxLayout* playerButtonsLayoutH;
     QVBoxLayout* playerButtonsLayoutV;
-    QPushButton* loopButton;
-    QVBoxLayout* loopButtonLayout;
+    QPushButton* repeatButton;
+    QVBoxLayout* repeatButtonLayout;
 
     QVBoxLayout* bottomDownRightLayout;
     QSlider* trackPositionSlider;
@@ -88,13 +89,12 @@ private:
 
 
 private slots:
-    void selectMultipleFiles();
+    void selectFiles();
 
     void play();
-    void pause();
     void previousTrack();
     void nextTrack();
-    void loop();
+    void repeat();
 
     void setTrackPosition(int pos);
     void updateSliderPosition(qint64 pos);
@@ -103,6 +103,8 @@ private slots:
     void setTrackVolume(int volume);
 
     void processMetaData();
+
+    void handleMediaStatusChanged(QMediaPlayer::MediaStatus status);
 
     void resizeEvent(QResizeEvent* event) override;
 };

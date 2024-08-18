@@ -12,9 +12,9 @@ public:
 	QString getTrackPath() {
 		return trackPath;
 	}
+	static MusicButton* lastMusicButton;
 	void setActive(bool active);
 private:
-	static MusicButton* lastMusicButton;
 	bool isActive;
 	QMediaPlayer* player;
 	QString trackPath;
