@@ -4,11 +4,18 @@
 void MainWindow::play() {
 	if (playlist->isEmpty()) return;
 
-	if (!player->isPlaying()) {
+	if (player->source().isEmpty()) {
+		nextTrack();
 		player->play();
+		playStopButton->setIcon(QIcon("resources/icons/pause.svg"));
+	}
+	else if (!player->isPlaying() && !player->source().isEmpty()) {
+		player->play();
+		playStopButton->setIcon(QIcon("resources/icons/pause.svg"));
 	}
 	else {
 		player->pause();
+		playStopButton->setIcon(QIcon("resources/icons/play.svg"));
 	}
 }
 void MainWindow::previousTrack() {
@@ -94,5 +101,13 @@ void MainWindow::repeat() {
 		break;
 	default:
 		break;
+	}
+}
+void MainWindow::handleMediaStatusChanged(QMediaPlayer::MediaStatus status) {
+	if (status == QMediaPlayer::EndOfMedia) {
+		if (repeatMode == 2) {
+			nextTrack();
+			player->play();
+		}
 	}
 }

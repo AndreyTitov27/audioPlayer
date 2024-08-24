@@ -1,0 +1,306 @@
+[33mcommit 7af52eb69bd102fbee9e3a1016033a66590f261b[m
+Merge: ee0e9ad 72b05a4 634e7a6
+Author: Dunge0nMaster27 <titov0906@gmail.com>
+Date:   Fri Aug 16 18:47:18 2024 +0200
+
+    On (no branch): Checking out 58cc4365
+    
+    Stashing uncommitted changes before performing a checkout of '58cc4365'. Pop or apply these changes to restore them.
+
+[1mdiff --cc audioPlayer/mainWindow.cpp[m
+[1mindex 9b05883,9b05883,0000000..0c88c77[m
+mode 100644,100644,000000..100644[m
+[1m--- a/audioPlayer/mainWindow.cpp[m
+[1m+++ b/audioPlayer/mainWindow.cpp[m
+[36m@@@@ -1,290 -1,290 -1,0 +1,291 @@@@[m
+[32m  +﻿#include "mainWindow.hpp"[m
+[32m  +#include "musicButton.hpp"[m
+[32m  +#include "styles.hpp"[m
+[32m  +#include <QtCore/QUrl>[m
+[32m  +[m
+[32m  +MainWindow::MainWindow() {[m
+[32m  +	trackNumber = -1;[m
+[32m  +	currentTrackNumber = -1;[m
+[32m  +[m
+[32m  +	centralWidget = new QWidget(this);[m
+[32m  +	//centralWidget->setStyleSheet("border: 1px solid #5DE2E7;");[m
+[32m  +	mainLayout = new QVBoxLayout(centralWidget);[m
+[32m  +[m
+[32m  +	topLayout = new QHBoxLayout();[m
+[32m  +	topLeftLayout = new QVBoxLayout();[m
+[32m  +	trackCoverLayoutV = new QVBoxLayout();[m
+[32m  +	trackCoverLayoutH = new QHBoxLayout();[m
+[32m  +	trackCoverLabel = new QLabel();[m
+[32m  +[m
+[32m  +	topRightLayout = new QVBoxLayout();[m
+[32m  +	tracksLayout = new QVBoxLayout();[m
+[32m  +	tracksScrollArea = new QScrollArea();[m
+[32m  +	tracksScrollAreaWidget = new QWidget();[m
+[32m  +	tracksScrollAreaLayout = new QVBoxLayout(tracksScrollAreaWidget);[m
+[32m  +[m
+[32m  +	bottomLayout = new QVBoxLayout();[m
+[32m  +	bottomUpLayout = new QHBoxLayout();[m
+[32m  +	addTrackButton = new QPushButton("+");[m
+[32m  +	removeTrackButton = new QPushButton("-");[m
+[32m  +	moveTrackButton = new QPushButton("%");[m
+[32m  +	manageTracksLayoutV = new QVBoxLayout();[m
+[32m  +	manageTracksLayoutH = new QHBoxLayout();[m
+[32m  +[m
+[32m  +	bottomDownLayout = new QHBoxLayout();[m
+[32m  +	bottomDownLeftLayout = new QVBoxLayout();[m
+[32m  +	previousTrackButton = new QPushButton("<-", this);[m
+[32m  +	playStopButton = new QPushButton(">", this);[m
+[32m  +	nextTrackButton = new QPushButton("->", this);[m
+[32m  +	playerButtonsLayoutV = new QVBoxLayout();[m
+[32m  +	playerButtonsLayoutH = new QHBoxLayout();[m
+[32m  +	loopButton = new QPushButton("O", this);[m
+[32m  +	loopButtonLayout = new QVBoxLayout();[m
+[32m  +[m
+[32m  +	bottomDownRightLayout = new QVBoxLayout();[m
+[32m  +	trackPositionSlider = new QSlider(Qt::Horizontal, this);[m
+[32m  +	trackPositionSliderLayout = new QVBoxLayout();[m
+[32m  +	trackVolumeSlider = new QSlider(Qt::Horizontal, this);[m
+[32m  +	trackVolumeSliderLayout = new QVBoxLayout();[m
+[32m  +[m
+[32m  +	player = new QMediaPlayer(this);[m
+[32m  +	audioOutput = new QAudioOutput(this);[m
+[32m  +	playlist = new QList<MusicButton*>;[m
+[32m  +[m
+[32m  +	[m
+[32m  +	mainLayout->addLayout(topLayout);[m
+[32m  +	topLayout->addLayout(topLeftLayout);[m
+[32m  +	topLeftLayout->addLayout(trackCoverLayoutV);[m
+[32m  +	trackCoverLayoutH->addWidget(trackCoverLabel);[m
+[32m  +	trackCoverLayoutV->addLayout(trackCoverLayoutH);[m
+[32m  +[m
+[32m  +	topLayout->addLayout(topRightLayout);[m
+[32m  +	topRightLayout->addLayout(tracksLayout);[m
+[32m  +	tracksLayout->addWidget(tracksScrollArea);[m
+[32m  +	tracksScrollArea->setWidget(tracksScrollAreaWidget);[m
+[32m  +	//tracksScrollAreaLayout->addWidget(tracksScrollAreaWidget);[m
+[32m  +	tracksScrollAreaWidget->setLayout(tracksScrollAreaLayout);[m
+[32m  +[m
+[32m  +	mainLayout->addLayout(bottomLayout);[m
+[32m  +	//bottomLayout->addLayout(bottomUpLayout);[m
+[32m  +	//bottomUpLayout->addLayout(manageTracksLayoutV);[m
+[32m  +	//manageTracksLayoutH->addWidget(addTrackButton);[m
+[32m  +	//manageTracksLayoutH->addWidget(removeTrackButton);[m
+[32m  +	//manageTracksLayoutH->addWidget(moveTrackButton);[m
+[32m  +	//manageTracksLayoutV->addLayout(manageTracksLayoutH);[m
+[32m  +[m
+[32m  +	//[m
+[32m  +	bottomLayout->addLayout(bottomDownLayout);[m
+[32m  +	bottomDownLayout->addLayout(bottomDownLeftLayout);[m
+[32m  +	bottomDownLeftLayout->addLayout(playerButtonsLayoutV);[m
+[32m  +	playerButtonsLayoutH->addWidget(previousTrackButton);[m
+[32m  +	playerButtonsLayoutH->addWidget(playStopButton);[m
+[32m  +	playerButtonsLayoutH->addWidget(nextTrackButton);[m
+[32m  +	playerButtonsLayoutV->addLayout(playerButtonsLayoutH);[m
+[32m  +	bottomDownLeftLayout->addLayout(loopButtonLayout);[m
+[32m  +	loopButtonLayout->addWidget(loopButton);[m
+[32m  +[m
+[32m  +	bottomDownLayout->addLayout(bottomDownRightLayout);[m
+[32m  +	//[m
+[32m  +	manageTracksLayoutH->addWidget(addTrackButton);[m
+[32m  +	manageTracksLayoutH->addWidget(removeTrackButton);[m
+[32m  +	manageTracksLayoutH->addWidget(moveTrackButton);[m
+[32m  +	manageTracksLayoutV->addLayout(manageTracksLayoutH);[m
+[32m  +	bottomDownRightLayout->addLayout(manageTracksLayoutV);[m
+[32m  +	//[m
+[32m  +	bottomDownRightLayout->addLayout(trackPositionSliderLayout);[m
+[32m  +	bottomDownRightLayout->addLayout(trackVolumeSliderLayout);[m
+[32m  +	[m
+[32m  +	setCentralWidget(centralWidget);[m
+[32m  +[m
+[32m  +	topLayout->setAlignment(Qt::AlignTop);[m
+[32m+++	topLeftLayout->setAlignment(Qt::AlignLeft);[m
+[32m  +	trackCoverLabel->setAlignment(Qt::AlignCenter);[m
+[32m  +	trackCoverLabel->setMinimumSize(100, 100);[m
+[32m  +	trackCoverLabel->setMaximumSize(200, 200);[m
+[32m  +	trackCoverLabel->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);[m
+[32m  +	trackCoverLabel->setScaledContents(true);[m
+[32m  +	trackCoverLayoutV->setAlignment(Qt::AlignTop);[m
+[32m  +	trackCoverLayoutH->setAlignment(Qt::AlignLeft);[m
+[32m  +	[m
+[32m  +[m
+[32m  +	tracksLayout->setAlignment(Qt::AlignRight);[m
+[32m  +	tracksScrollAreaLayout->setAlignment(Qt::AlignTop);[m
+[32m  +	tracksScrollArea->setWidgetResizable(true);[m
+[32m  +	tracksScrollArea->setStyleSheet(scrollAreaStyle);[m
+[32m  +	tracksScrollArea->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);[m
+[32m  +[m
+[32m  +	bottomLayout->setAlignment(Qt::AlignBottom);[m
+[32m  +	bottomUpLayout->setAlignment(Qt::AlignBottom);[m
+[32m  +	bottomDownRightLayout->setAlignment(Qt::AlignBottom);[m
+[32m  +[m
+[32m  +	previousTrackButton->setFixedSize(50, 50);[m
+[32m  +	previousTrackButton->setStyleSheet(playerButtonsStyle);[m
+[32m  +	connect(previousTrackButton, &QPushButton::clicked, this, &MainWindow::previousTrack);[m
+[32m  +[m
+[32m  +	playStopButton->setFixedSize(50, 50);[m
+[32m  +	playStopButton->setStyleSheet(playerButtonsStyle);[m
+[32m  +	connect(playStopButton, &QPushButton::clicked, this, &MainWindow::play);[m
+[32m  +[m
+[32m  +	nextTrackButton->setFixedSize(50, 50);[m
+[32m  +	nextTrackButton->setStyleSheet(playerButtonsStyle);[m
+[32m  +	connect(nextTrackButton, &QPushButton::clicked, this, &MainWindow::nextTrack);[m
+[32m  +[m
+[32m  +	loopButton->setFixedSize(35, 35);[m
+[32m  +	loopButton->setStyleSheet(manageButtonsStyle);[m
+[32m  +[m
+[32m  +	connect(loopButton, &QPushButton::clicked, this, &MainWindow::loop);[m
+[32m  +[m
+[32m  +	loopButtonLayout->addWidget(loopButton, Qt::AlignRight);[m
+[32m  +[m
+[32m  +[m
+[32m  +	playerButtonsLayoutH->addWidget(previousTrackButton);[m
+[32m  +	playerButtonsLayoutH->addWidget(playStopButton);[m
+[32m  +	playerButtonsLayoutH->addWidget(nextTrackButton);[m
+[32m  +	playerButtonsLayoutH->setAlignment(Qt::AlignBottom);[m
+[32m  +[m
+[32m  +	[m
+[32m  +[m
+[32m  +	[m
+[32m  +[m
+[32m  +	//manageTracksLayoutV->addLayout(manageTracksLayoutH);[m
+[32m  +	manageTracksLayoutV->setAlignment(Qt::AlignBottom);[m
+[32m  +	manageTracksLayoutH->setAlignment(Qt::AlignRight);[m
+[32m  +[m
+[32m  +	QFont manageTrackButtonsFont;[m
+[32m  +	manageTrackButtonsFont.setPointSize(14);[m
+[32m  +[m
+[32m  +	[m
+[32m  +	addTrackButton->setMinimumSize(35, 35);[m
+[32m  +	addTrackButton->setMaximumSize(50, 50);[m
+[32m  +	//addTrackButton->setFixedSize(35, 35);[m
+[32m  +	addTrackButton->setFont(manageTrackButtonsFont);[m
+[32m  +	addTrackButton->setStyleSheet(manageButtonsStyle);[m
+[32m  +	addTrackButton->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);[m
+[32m  +[m
+[32m  +	connect(addTrackButton, &QPushButton::clicked, this, &MainWindow::selectMultipleFiles);[m
+[32m  +[m
+[32m  +	[m
+[32m  +	removeTrackButton->setMinimumSize(35, 35);[m
+[32m  +	removeTrackButton->setMaximumSize(50, 50);[m
+[32m  +	//removeTrackButton->setFixedSize(35, 35);[m
+[32m  +	removeTrackButton->setFont(manageTrackButtonsFont);[m
+[32m  +	removeTrackButton->setStyleSheet(manageButtonsStyle);[m
+[32m  +	removeTrackButton->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);[m
+[32m  +[m
+[32m  +	[m
+[32m  +	moveTrackButton->setMinimumSize(35, 35);[m
+[32m  +	moveTrackButton->setMaximumSize(50, 50);[m
+[32m  +	//moveTrackButton->setFixedSize(35, 35);[m
+[32m  +	moveTrackButton->setFont(manageTrackButtonsFont);[m
+[32m  +	moveTrackButton->setStyleSheet(manageButtonsStyle);[m
+[32m  +	moveTrackButton->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);[m
+[32m  +[m
+[32m  +	//manageTracksLayoutH->addWidget(addTrackButton);[m
+[32m  +	//manageTracksLayoutH->addWidget(removeTrackButton);[m
+[32m  +	//manageTracksLayoutH->addWidget(moveTrackButton);[m
+[32m  +[m
+[32m  +[m
+[32m  +	//overBottomLayout->addLayout(manageTracksLayoutV);[m
+[32m  +[m
+[32m  +	//mainLayout->addLayout(manageTracksLayoutH); // was overBottomLayout[m
+[32m  +[m
+[32m  +	player->setAudioOutput(audioOutput);[m
+[32m  +[m
+[32m  +	trackPositionSlider->setRange(0, player->duration() / 1000);[m
+[32m  +	trackVolumeSlider->setRange(0, 100);[m
+[32m  +	trackVolumeSlider->setValue(50);[m
+[32m  +	trackVolumeSlider->setMinimumWidth(120);[m
+[32m  +	trackVolumeSlider->setMaximumWidth(120);[m
+[32m  +	trackVolumeSlider->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);[m
+[32m  +[m
+[32m  +	trackPositionSliderLayout->addWidget(trackPositionSlider);[m
+[32m  +	trackVolumeSliderLayout->addWidget(trackVolumeSlider);[m
+[32m  +	trackVolumeSliderLayout->setAlignment(Qt::AlignLeft);[m
+[32m  +[m
+[32m  +	connect(player, &QMediaPlayer::metaDataChanged, this, &MainWindow::processMetaData);[m
+[32m  +[m
+[32m  +	connect(trackPositionSlider, &QSlider::sliderMoved, this, &MainWindow::setTrackPosition);[m
+[32m  +	connect(player, &QMediaPlayer::positionChanged, this, &MainWindow::updateSliderPosition);[m
+[32m  +	connect(player, &QMediaPlayer::durationChanged, this, &MainWindow::updateSliderRange);[m
+[32m  +[m
+[32m  +	connect(trackVolumeSlider, &QSlider::valueChanged, this, &MainWindow::setTrackVolume);[m
+[32m  +[m
+[32m  +	setMinimumSize(500, 350);[m
+[32m  +	resize(600, 400);[m
+[32m  +	show();[m
+[32m  +}[m
+[32m  +[m
+[32m  +void MainWindow::play() {[m
+[32m  +	if (!playlist->isEmpty()) {[m
+[32m  +		if (!player->isPlaying()) {[m
+[32m  +[m
+[32m  +			player->play();[m
+[32m  +		}[m
+[32m  +		else {[m
+[32m  +			player->pause();[m
+[32m  +		}[m
+[32m  +	}[m
+[32m  +}[m
+[32m  +void MainWindow::pause() {[m
+[32m  +	player->pause();[m
+[32m  +}[m
+[32m  +void MainWindow::previousTrack() {[m
+[32m  +	player->pause();[m
+[32m  +	if (playlist->at(currentTrackNumber - 2) != nullptr) {[m
+[32m  +		MusicButton* track = playlist->at(currentTrackNumber - 2);[m
+[32m  +		QString trackPath = track->getTrackPath();[m
+[32m  +		player->setSource(QUrl::fromLocalFile(trackPath));[m
+[32m  +	}[m
+[32m  +	else {[m
+[32m  +		MusicButton* track = playlist->last();[m
+[32m  +		QString trackPath = track->getTrackPath();[m
+[32m  +		player->setSource(QUrl::fromLocalFile(trackPath));[m
+[32m  +	}[m
+[32m  +	player->play();[m
+[32m  +}[m
+[32m  +void MainWindow::nextTrack() {[m
+[32m  +	player->stop();[m
+[32m  +	if (playlist->at(currentTrackNumber) != nullptr) {[m
+[32m  +		MusicButton* track = playlist->at(currentTrackNumber);[m
+[32m  +		QString trackPath = track->getTrackPath();[m
+[32m  +		player->setSource(QUrl::fromLocalFile(trackPath));[m
+[32m  +	}[m
+[32m  +	else {[m
+[32m  +		MusicButton* track = playlist->first();[m
+[32m  +		QString trackPath = track->getTrackPath();[m
+[32m  +		player->setSource(QUrl::fromLocalFile(trackPath));[m
+[32m  +	}[m
+[32m  +	player->play();[m
+[32m  +}[m
+[32m  +void MainWindow::loop() {[m
+[32m  +	player->setLoops(QMediaPlayer::Infinite);[m
+[32m  +	loopButton->setText("1");[m
+[32m  +}[m
+[32m  +[m
+[32m  +void MainWindow::setTrackPosition(int pos) {[m
+[32m  +	player->setPosition((qint64)pos * 1000);[m
+[32m  +}[m
+[32m  +void MainWindow::updateSliderPosition(qint64 pos) {[m
+[32m  +	trackPositionSlider->setValue(pos / 1000);[m
+[32m  +}[m
+[32m  +void MainWindow::updateSliderRange(qint64 duration) {[m
+[32m  +	trackPositionSlider->setRange(0, duration / 1000);[m
+[32m  +}[m
+[32m  +[m
+[32m  +void MainWindow::setTrackVolume(int volume) {[m
+[32m  +	audioOutput->setVolume(volume / 100.0F);[m
+[32m  +}[m
+[32m  +[m
+[32m  +void MainWindow::processMetaData() {[m
+[32m  +	coverImage = player->metaData().value(QMediaMetaData::ThumbnailImage).value<QImage>();[m
+[32m  +	trackCoverLabel->setPixmap(QPixmap::fromImage(coverImage));[m
+[32m  +}[m
+[32m  +[m
+[32m  +void MainWindow::resizeEvent(QResizeEvent* event) {[m
+[32m  +	if (!coverImage.isNull()) {[m
+[32m  +		trackCoverLabel->setPixmap(QPixmap::fromImage(coverImage).scaled(trackCoverLabel->size(),[m
+[32m  +			Qt::KeepAspectRatio, Qt::SmoothTransformation));[m
+[32m  +	}[m
+[32m  +	QMainWindow::resizeEvent(event);[m
+[32m  +	qDebug() << currentTrackNumber;[m
+[32m  +}[m

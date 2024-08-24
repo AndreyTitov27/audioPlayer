@@ -177,6 +177,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="fileFunctions.cpp" />
     <ClCompile Include="fileOptions.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainWindow.cpp" />
@@ -185,6 +186,7 @@
     <ClCompile Include="playerFunctions.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="fileFuctions.hpp" />
     <ClInclude Include="mainWindow.hpp" />
     <ClInclude Include="musicButton.hpp" />
     <ClInclude Include="styles.hpp" />

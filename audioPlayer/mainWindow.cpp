@@ -1,6 +1,7 @@
 ﻿#include "mainWindow.hpp"
 #include "musicButton.hpp"
 #include "styles.hpp"
+#include "fileFuctions.hpp"
 #include <QtCore/QUrl>
 
 MainWindow::MainWindow() {
@@ -47,7 +48,7 @@ MainWindow::MainWindow() {
 	playerButtonsLayoutH = new QHBoxLayout();
 	repeatButton = new QPushButton(QIcon("resources/icons/repeatOff.svg"), "", this);
 	repeatButton->setIconSize(QSize(25, 25));
-	repeatButtonLayout = new QVBoxLayout();
+	repeatButtonLayout = new QHBoxLayout();
 
 	bottomDownRightLayout = new QVBoxLayout();
 	trackPositionSlider = new QSlider(Qt::Horizontal, this);
@@ -73,14 +74,6 @@ MainWindow::MainWindow() {
 	tracksScrollAreaWidget->setLayout(tracksScrollAreaLayout);
 
 	mainLayout->addLayout(bottomLayout);
-	//bottomLayout->addLayout(bottomUpLayout);
-	//bottomUpLayout->addLayout(manageTracksLayoutV);
-	//manageTracksLayoutH->addWidget(addTrackButton);
-	//manageTracksLayoutH->addWidget(removeTrackButton);
-	//manageTracksLayoutH->addWidget(moveTrackButton);
-	//manageTracksLayoutV->addLayout(manageTracksLayoutH);
-
-	//
 
 	bottomLayout->addLayout(bottomDownLayout);
 	bottomDownLayout->addLayout(bottomDownLeftLayout);
@@ -90,7 +83,7 @@ MainWindow::MainWindow() {
 	playerButtonsLayoutH->addWidget(nextTrackButton);
 	playerButtonsLayoutV->addLayout(playerButtonsLayoutH);
 	bottomDownLeftLayout->addLayout(repeatButtonLayout);
-	repeatButtonLayout->addWidget(repeatButton);
+	repeatButtonLayout->addWidget(repeatButton, Qt::AlignHCenter);
 
 	bottomDownLayout->addLayout(bottomDownRightLayout);
 	//
@@ -113,6 +106,8 @@ MainWindow::MainWindow() {
 	trackCoverLabel->setMaximumSize(200, 200);
 	trackCoverLabel->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 	trackCoverLabel->setScaledContents(true);
+	coverImage = QImage("resources/defaultCover.png");
+	trackCoverLabel->setPixmap(QPixmap::fromImage(coverImage));
 	trackCoverLayoutV->setAlignment(Qt::AlignTop);
 	trackCoverLayoutH->setAlignment(Qt::AlignLeft);
 	
@@ -160,9 +155,6 @@ MainWindow::MainWindow() {
 	QFont manageTrackButtonsFont;
 	manageTrackButtonsFont.setPointSize(14);
 
-	
-	//addTrackButton->setMinimumSize(35, 35);
-	//addTrackButton->setMaximumSize(50, 50);
 	addTrackButton->setFixedSize(35, 35);
 	addTrackButton->setFont(manageTrackButtonsFont);
 	addTrackButton->setStyleSheet(manageButtonsStyle);
@@ -170,30 +162,15 @@ MainWindow::MainWindow() {
 
 	connect(addTrackButton, &QPushButton::clicked, this, &MainWindow::selectFiles);
 
-	
-	//removeTrackButton->setMinimumSize(35, 35);
-	//removeTrackButton->setMaximumSize(50, 50);
 	removeTrackButton->setFixedSize(35, 35);
 	removeTrackButton->setFont(manageTrackButtonsFont);
 	removeTrackButton->setStyleSheet(manageButtonsStyle);
 	removeTrackButton->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 
-	
-	//moveTrackButton->setMinimumSize(35, 35);
-	//moveTrackButton->setMaximumSize(50, 50);
 	moveTrackButton->setFixedSize(35, 35);
 	moveTrackButton->setFont(manageTrackButtonsFont);
 	moveTrackButton->setStyleSheet(manageButtonsStyle);
 	moveTrackButton->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-
-	//manageTracksLayoutH->addWidget(addTrackButton);
-	//manageTracksLayoutH->addWidget(removeTrackButton);
-	//manageTracksLayoutH->addWidget(moveTrackButton);
-
-
-	//overBottomLayout->addLayout(manageTracksLayoutV);
-
-	//mainLayout->addLayout(manageTracksLayoutH); // was overBottomLayout
 
 	player->setAudioOutput(audioOutput);
 
@@ -218,9 +195,34 @@ MainWindow::MainWindow() {
 
 	connect(trackVolumeSlider, &QSlider::valueChanged, this, &MainWindow::setTrackVolume);
 
+	loadSettings(this);
+
 	setMinimumSize(500, 350);
 	resize(600, 400);
 	show();
+}
+void MainWindow::setVolume(float vol) {
+	audioOutput->setVolume(vol);
+	trackVolumeSlider->setValue(vol * 100);
+}
+void MainWindow::setRepeatMode(int mode) {
+	repeatMode = mode;
+	switch (repeatMode) {
+	case 0:
+		player->setLoops(QMediaPlayer::Once);
+		repeatButton->setIcon(QIcon("resources/icons/repeatOff.svg"));
+		break;
+	case 1:
+		player->setLoops(QMediaPlayer::Infinite);
+		repeatButton->setIcon(QIcon("resources/icons/repeatOne.svg"));
+		break;
+	case 2:
+		player->setLoops(QMediaPlayer::Once);
+		repeatButton->setIcon(QIcon("resources/icons/repeatAll.svg"));
+		break;
+	default:
+		break;
+	}
 }
 
 void MainWindow::setTrackPosition(int pos) {
@@ -239,16 +241,10 @@ void MainWindow::setTrackVolume(int volume) {
 
 void MainWindow::processMetaData() {
 	coverImage = player->metaData().value(QMediaMetaData::ThumbnailImage).value<QImage>();
-	trackCoverLabel->setPixmap(QPixmap::fromImage(coverImage));
-}
-
-void MainWindow::handleMediaStatusChanged(QMediaPlayer::MediaStatus status) {
-	if (status == QMediaPlayer::EndOfMedia) {
-		if (repeatMode == 2) {
-			nextTrack();
-			player->play();
-		}
+	if (coverImage.isNull()) {
+		coverImage = QImage("resources/defaultCover.png");
 	}
+	trackCoverLabel->setPixmap(QPixmap::fromImage(coverImage));
 }
 
 void MainWindow::resizeEvent(QResizeEvent* event) {
@@ -258,4 +254,8 @@ void MainWindow::resizeEvent(QResizeEvent* event) {
 	}
 	QMainWindow::resizeEvent(event);
 	qDebug() << currentTrackNumber;
+}
+void MainWindow::closeEvent(QCloseEvent* event) {
+	saveSettings(this);
+	QMainWindow::closeEvent(event);
 }

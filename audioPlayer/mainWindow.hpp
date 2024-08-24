@@ -26,14 +26,22 @@
 
 class MainWindow : public QMainWindow {
 public:
+    int trackNumber;
+    int currentTrackNumber;
     MainWindow();
     void setCurrentTrackNumber(int index) {
         currentTrackNumber = index;
     }
+    void setVolume(float vol);
+    float getVolume() { return audioOutput->volume(); }
+    
+    QMediaPlayer* getPlayer() { return player; }
+    QList<MusicButton*>* getPlaylist() { return playlist; }
+    QVBoxLayout* getTracksScrollAreaLayout() { return tracksScrollAreaLayout; }
+    int getRepeatMode() { return repeatMode; }
+    void setRepeatMode(int mode);
 
 private:
-    int trackNumber;
-    int currentTrackNumber;
     int repeatMode;
 
     QWidget* centralWidget;
@@ -68,7 +76,7 @@ private:
     QHBoxLayout* playerButtonsLayoutH;
     QVBoxLayout* playerButtonsLayoutV;
     QPushButton* repeatButton;
-    QVBoxLayout* repeatButtonLayout;
+    QHBoxLayout* repeatButtonLayout;
 
     QVBoxLayout* bottomDownRightLayout;
     QSlider* trackPositionSlider;
@@ -76,17 +84,9 @@ private:
     QSlider* trackVolumeSlider;
     QVBoxLayout* trackVolumeSliderLayout;
 
-    
-
-    
-
-    
-
     QMediaPlayer* player;
     QAudioOutput* audioOutput;
     QList<MusicButton*>* playlist;
-    
-
 
 private slots:
     void selectFiles();
@@ -107,4 +107,6 @@ private slots:
     void handleMediaStatusChanged(QMediaPlayer::MediaStatus status);
 
     void resizeEvent(QResizeEvent* event) override;
+
+    void closeEvent(QCloseEvent* event) override;
 };
