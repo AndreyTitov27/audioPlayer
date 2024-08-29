@@ -181,14 +181,18 @@
     <ClCompile Include="fileOptions.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainWindow.cpp" />
-    <ClCompile Include="mainWindowSave.cpp" />
     <ClCompile Include="musicButton.cpp" />
     <ClCompile Include="playerFunctions.cpp" />
+    <ClCompile Include="settingsButton.cpp" />
+    <ClCompile Include="settingsWindow.cpp" />
+    <ClCompile Include="styles.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="fileFuctions.hpp" />
     <ClInclude Include="mainWindow.hpp" />
     <ClInclude Include="musicButton.hpp" />
+    <ClInclude Include="settingsButton.hpp" />
+    <ClInclude Include="settingsWindow.hpp" />
     <ClInclude Include="styles.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

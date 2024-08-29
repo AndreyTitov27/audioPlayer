@@ -12,7 +12,7 @@ void loadSettings(MainWindow* mainWindowInstance) {
 					QFileInfo fileInfo(path);
 					MusicButton* musicButton = new MusicButton(fileInfo.completeBaseName(),
 						mainWindowInstance->trackNumber + 1, path, mainWindowInstance->getPlayer(),
-						mainWindowInstance->currentTrackNumber, mainWindowInstance);
+						mainWindowInstance->currentTrackNumber, mainWindowInstance, mainWindowInstance);
 					mainWindowInstance->getPlaylist()->append(musicButton);
 					mainWindowInstance->getTracksScrollAreaLayout()->addWidget(musicButton);
 				}

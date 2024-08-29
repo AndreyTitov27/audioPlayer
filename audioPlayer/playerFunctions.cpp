@@ -105,9 +105,16 @@ void MainWindow::repeat() {
 }
 void MainWindow::handleMediaStatusChanged(QMediaPlayer::MediaStatus status) {
 	if (status == QMediaPlayer::EndOfMedia) {
-		if (repeatMode == 2) {
+		switch (repeatMode) {
+		case 0:
+			playStopButton->setIcon(QIcon("resources/icons/play.svg"));
+			break;
+		case 2:
 			nextTrack();
 			player->play();
+			break;
+		default:
+			break;
 		}
 	}
 }

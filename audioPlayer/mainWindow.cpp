@@ -5,9 +5,13 @@
 #include <QtCore/QUrl>
 
 MainWindow::MainWindow() {
+	settingsWindow = new SettingsWindow(this, this);
+	settingsWindow->setVisible(false);
+
 	trackNumber = -1;
 	currentTrackNumber = -1;
 	repeatMode = 0;
+	removeSelectionMode = false;
 
 	centralWidget = new QWidget(this);
 	//centralWidget->setStyleSheet("border: 1px solid #5DE2E7;");
@@ -15,6 +19,8 @@ MainWindow::MainWindow() {
 
 	topLayout = new QHBoxLayout();
 	topLeftLayout = new QVBoxLayout();
+	settingsButtonLayout = new QHBoxLayout();
+	settingsButton = new QPushButton(QIcon("resources/icons/settings.svg"), "", this);
 	trackCoverLayoutV = new QVBoxLayout();
 	trackCoverLayoutH = new QHBoxLayout();
 	trackCoverLabel = new QLabel();
@@ -27,6 +33,7 @@ MainWindow::MainWindow() {
 
 	bottomLayout = new QVBoxLayout();
 	bottomUpLayout = new QHBoxLayout();
+	showPlaylistsButton = new QPushButton("Playlists");
 	addTrackButton = new QPushButton(QIcon("resources/icons/add.svg"), "");
 	addTrackButton->setIconSize(QSize(25, 25));
 	removeTrackButton = new QPushButton(QIcon("resources/icons/remove.svg"), "");
@@ -63,6 +70,8 @@ MainWindow::MainWindow() {
 	
 	mainLayout->addLayout(topLayout, 1);
 	topLayout->addLayout(topLeftLayout);
+	topLeftLayout->addLayout(settingsButtonLayout);
+	settingsButtonLayout->addWidget(settingsButton);
 	topLeftLayout->addLayout(trackCoverLayoutV);
 	trackCoverLayoutH->addWidget(trackCoverLabel);
 	trackCoverLayoutV->addLayout(trackCoverLayoutH);
@@ -89,6 +98,7 @@ MainWindow::MainWindow() {
 	//
 	bottomDownRightLayout->addLayout(manageTracksLayoutV);
 	manageTracksLayoutV->addLayout(manageTracksLayoutH);
+	manageTracksLayoutH->addWidget(showPlaylistsButton);
 	manageTracksLayoutH->addWidget(addTrackButton);
 	manageTracksLayoutH->addWidget(removeTrackButton);
 	manageTracksLayoutH->addWidget(moveTrackButton);
@@ -101,6 +111,11 @@ MainWindow::MainWindow() {
 	setCentralWidget(centralWidget);
 
 	topLayout->setAlignment(Qt::AlignBottom);
+	settingsButtonLayout->setAlignment(Qt::AlignLeft);
+	settingsButton->setFixedSize(10, 10);
+	settingsButton->setIconSize(QSize(10, 10));
+	connect(settingsButton, &QPushButton::clicked, this, &MainWindow::openSettingsWindow);
+
 	trackCoverLabel->setAlignment(Qt::AlignCenter);
 	trackCoverLabel->setMinimumSize(100, 100);
 	trackCoverLabel->setMaximumSize(200, 200);
@@ -155,17 +170,25 @@ MainWindow::MainWindow() {
 	QFont manageTrackButtonsFont;
 	manageTrackButtonsFont.setPointSize(14);
 
+	showPlaylistsButton->setFixedSize(60, 35);
+	showPlaylistsButton->setStyleSheet(manageButtonsStyle);
+	showPlaylistsButton->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+
+	connect(showPlaylistsButton, &QPushButton::clicked, this, &MainWindow::showPlaylists);
+
 	addTrackButton->setFixedSize(35, 35);
 	addTrackButton->setFont(manageTrackButtonsFont);
 	addTrackButton->setStyleSheet(manageButtonsStyle);
 	addTrackButton->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 
-	connect(addTrackButton, &QPushButton::clicked, this, &MainWindow::selectFiles);
+	connect(addTrackButton, &QPushButton::clicked, this, &MainWindow::addTracks);
 
 	removeTrackButton->setFixedSize(35, 35);
 	removeTrackButton->setFont(manageTrackButtonsFont);
 	removeTrackButton->setStyleSheet(manageButtonsStyle);
 	removeTrackButton->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+
+	connect(removeTrackButton, &QPushButton::clicked, this, &MainWindow::removeTracks);
 
 	moveTrackButton->setFixedSize(35, 35);
 	moveTrackButton->setFont(manageTrackButtonsFont);
@@ -201,6 +224,9 @@ MainWindow::MainWindow() {
 	resize(600, 400);
 	show();
 }
+void MainWindow::showPlaylists() {
+
+}
 void MainWindow::setVolume(float vol) {
 	audioOutput->setVolume(vol);
 	trackVolumeSlider->setValue(vol * 100);
@@ -224,6 +250,17 @@ void MainWindow::setRepeatMode(int mode) {
 		break;
 	}
 }
+void MainWindow::updateStyles() {
+	showPlaylistsButton->setStyleSheet(manageButtonsStyle);
+	addTrackButton->setStyleSheet(manageButtonsStyle);
+	removeTrackButton->setStyleSheet(manageButtonsStyle);
+	moveTrackButton->setStyleSheet(manageButtonsStyle);
+	repeatButton->setStyleSheet(manageButtonsStyle);
+
+	previousTrackButton->setStyleSheet(playerButtonsStyle);
+	playStopButton->setStyleSheet(playerButtonsStyle);
+	nextTrackButton->setStyleSheet(playerButtonsStyle);
+}
 
 void MainWindow::setTrackPosition(int pos) {
 	player->setPosition((qint64)pos * 1000);
@@ -246,6 +283,9 @@ void MainWindow::processMetaData() {
 	}
 	trackCoverLabel->setPixmap(QPixmap::fromImage(coverImage));
 }
+void MainWindow::openSettingsWindow() {
+	settingsWindow->setVisible(true);
+}
 
 void MainWindow::resizeEvent(QResizeEvent* event) {
 	if (!coverImage.isNull()) {
@@ -254,6 +294,10 @@ void MainWindow::resizeEvent(QResizeEvent* event) {
 	}
 	QMainWindow::resizeEvent(event);
 	qDebug() << currentTrackNumber;
+	//for (int i = 0; i < playlist->size(); i++) {
+	//	qDebug() << playlist->at(i)->getTrackPath();
+	//}
+	//qDebug() << MusicButton::lastMusicButton;
 }
 void MainWindow::closeEvent(QCloseEvent* event) {
 	saveSettings(this);

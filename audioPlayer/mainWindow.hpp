@@ -1,5 +1,6 @@
 #pragma once
 #include "musicButton.hpp"
+#include "settingsWindow.hpp"
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QVBoxLayout>
@@ -24,6 +25,8 @@
 #include <QtGui/qevent.h>
 #include <QtWidgets/QMenuBar>
 
+class MusicButton;
+class SettingsWindow;
 class MainWindow : public QMainWindow {
 public:
     int trackNumber;
@@ -32,6 +35,7 @@ public:
     void setCurrentTrackNumber(int index) {
         currentTrackNumber = index;
     }
+    QPushButton* getPlayPauseButton() { return playStopButton; }
     void setVolume(float vol);
     float getVolume() { return audioOutput->volume(); }
     
@@ -41,14 +45,19 @@ public:
     int getRepeatMode() { return repeatMode; }
     void setRepeatMode(int mode);
 
+    void updateStyles();
+
 private:
     int repeatMode;
+    bool removeSelectionMode;
 
     QWidget* centralWidget;
     QVBoxLayout* mainLayout;
 
     QHBoxLayout* topLayout;
     QVBoxLayout* topLeftLayout;
+    QHBoxLayout* settingsButtonLayout;
+    QPushButton* settingsButton;
     QHBoxLayout* trackCoverLayoutH;
     QVBoxLayout* trackCoverLayoutV;
     QLabel* trackCoverLabel;
@@ -62,6 +71,7 @@ private:
 
     QVBoxLayout* bottomLayout;
     QHBoxLayout* bottomUpLayout;
+    QPushButton* showPlaylistsButton;
     QPushButton* addTrackButton;
     QPushButton* removeTrackButton;
     QPushButton* moveTrackButton;
@@ -87,9 +97,13 @@ private:
     QMediaPlayer* player;
     QAudioOutput* audioOutput;
     QList<MusicButton*>* playlist;
+    SettingsWindow* settingsWindow = nullptr;
 
 private slots:
-    void selectFiles();
+    void showPlaylists();
+
+    void addTracks();
+    void removeTracks();
 
     void play();
     void previousTrack();
@@ -105,6 +119,8 @@ private slots:
     void processMetaData();
 
     void handleMediaStatusChanged(QMediaPlayer::MediaStatus status);
+
+    void openSettingsWindow();
 
     void resizeEvent(QResizeEvent* event) override;
 

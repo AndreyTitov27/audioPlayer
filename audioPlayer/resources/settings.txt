@@ -16,5 +16,5 @@ C:/Users/Andrey/Music/Phonk/SHADXWBXRN - Ritual.mp3
 C:/Users/Andrey/Music/Phonk/SHADXWBXRN - Shadow Dance.mp3
 C:/Users/Andrey/Music/Phonk/SHADXWBXRN x FLAYA PLAYA - WITCHERY.mp3
 C:/Users/Andrey/Music/Phonk/SHADXWBXRN, 4WHEEL - KILLSTREAK.mp3
-volume: 0.07
+volume: 1
 repeat mode: 1
