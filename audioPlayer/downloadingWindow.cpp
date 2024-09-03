@@ -2,6 +2,7 @@
 
 DownloadingWindow::DownloadingWindow(MainWindow* mainWindowInstance, QMainWindow* parent)
 	: QMainWindow(parent), mainWindowInstance(mainWindowInstance) {
+	setWindowTitle("Track Downloader");
 	setWindowFlags(Qt::Window | Qt::WindowCloseButtonHint);
 	centralWidget = new QWidget(this);
 	mainLayout = new QVBoxLayout(centralWidget);

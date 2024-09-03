@@ -1,6 +1,7 @@
 ﻿#include "mainWindow.hpp"
 
 MainWindow::MainWindow() {
+	setWindowTitle("OBXMX Player");
 
 	initializeWidgets();
 
@@ -107,7 +108,7 @@ MainWindow::MainWindow() {
 	removeTrackButton->setFont(manageTrackButtonsFont);
 	removeTrackButton->setStyleSheet(manageButtonsStyle);
 	removeTrackButton->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-	//connect(removeTrackButton, &QPushButton::clicked, this, &MainWindow::removeTracks);
+	connect(removeTrackButton, &QPushButton::clicked, this, &MainWindow::removeTracks);
 
 	moveTrackButton->setFixedSize(35, 35);
 	moveTrackButton->setFont(manageTrackButtonsFont);

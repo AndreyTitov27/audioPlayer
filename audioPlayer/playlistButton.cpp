@@ -23,6 +23,12 @@ PlaylistButton::PlaylistButton(const QString& text, const int& index, int& mainW
 
 void PlaylistButton::mousePressEvent(QMouseEvent* event) {
 	if (lastPlaylistButton != nullptr || lastPlaylistButton != this) lastPlaylistButton->setStyleSheet(playlistButtonStyle);
+	if (mainWindowInstance->removeSelectionMode) {
+		mainWindowInstance->removeSelectionMode = false;
+		for (MusicButton* button : *lastPlaylistButton->getList()) {
+			button->showCheckBox(false);
+		}
+	}
 	setStyleSheet(playlistButtonClickedStyle);
 	for (int i = 0; i < mainWindowInstance->getPlaylistList()->at(numberRef)->list->size(); i++) {
 		mainWindowInstance->getPlaylistList()->at(numberRef)->list->at(i)->setVisible(false);

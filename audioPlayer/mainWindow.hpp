@@ -40,6 +40,7 @@ public:
     int currentTrackNumber;
     int playlistNumber;
     int currentPlaylistNumber;
+    bool removeSelectionMode;
     bool isTrackDownloading;
     MainWindow();
     void setCurrentTrackNumber(int index) {
@@ -61,7 +62,6 @@ public:
 
 private:
     int repeatMode;
-    bool removeSelectionMode;
     bool showPlaylistsFlag;
 
     QWidget* centralWidget;

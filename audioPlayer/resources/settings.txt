@@ -1,12 +1,19 @@
 playlist-default:
-C:/Users/Andrey/Music/Phonk/Archez - HELLSUCK.mp3
-C:/Users/Andrey/Music/Phonk/Archez - SUXCESS.mp3
-C:/Users/Andrey/Music/Phonk/NAOMI - SPACE! (Super Slowed).mp3
-C:/Users/Andrey/Music/Phonk/DriX - Elysium.mp3
-C:/Users/Andrey/Music/Phonk/xxanteria & isq - FUNKED UP (SLOWED).mp3
+C:/Users/Andrey/Music/Phonk/MAXPVNK - Vibe.mp3
+C:/Users/Andrey/Music/Phonk/N!GHT & Luneex - PACH! PACH!.mp3
+C:/Users/Andrey/Music/Phonk/ProdGX - BULLET.mp3
+C:/Users/Andrey/Music/Phonk/SHADXWBXRN - Anthem.mp3
+C:/Users/Andrey/Music/Phonk/SHADXWBXRN - Collapse.mp3
+C:/Users/Andrey/Music/Phonk/SHADXWBXRN - Damage.mp3
+C:/Users/Andrey/Music/Phonk/SHADXWBXRN - Knight.mp3
+C:/Users/Andrey/Music/Phonk/SHADXWBXRN - Massacre.mp3
+C:/Users/Andrey/Music/Phonk/SHADXWBXRN - Necronomicon.mp3
+C:/Users/Andrey/Music/Phonk/SHADXWBXRN - Ritual.mp3
+C:/Users/Andrey/Music/Phonk/SHADXWBXRN - Shadow Dance.mp3
+C:/Users/Andrey/Music/Phonk/SHADXWBXRN, 4WHEEL - KILLSTREAK.mp3
 playlist-dodList:
 C:\Users\Andrey\Music\Phonk\OBXMX\OBXMX - Sugar Addiction.mp3
 C:\Users\Andrey\Music\Phonk\OBXMX\OBXMX - budetnovoe4to-to.mp3
 playlist-new downloaded tracks:
-volume: 0.09
+volume: 0.08
 repeat mode: 2

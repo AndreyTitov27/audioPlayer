@@ -30,95 +30,50 @@ void MainWindow::addTracks() {
 		}
 	}
 }
-/*void MainWindow::removeTracks() {
+void MainWindow::removeTracks() {
 	removeSelectionMode = !removeSelectionMode;
 	if (removeSelectionMode) {
-		for (MusicButton* button : *playlist) {
+		for (MusicButton* button : *playlistList->at(currentPlaylistNumber)->getList()) {
 			button->showCheckBox(true);
 		}
 	}
 	else {
-		bool setFirst = false;
 		QList<MusicButton*>* buttonsToRemove = new QList<MusicButton*>();
-		for (int i = 0; i < playlist->size(); i++) {
-			MusicButton* button = playlist->at(i);
+		for (MusicButton* button : *playlistList->at(currentPlaylistNumber)->getList()) {
 			if (button->isChecked()) {
 				buttonsToRemove->append(button);
-				if (QUrl(button->getTrackPath()) == player->source())
-					setFirst = true;
 			}
 		}
 		for (MusicButton* button : *buttonsToRemove) {
-			playlist->removeOne(button);
-			trackNumber--;
+			playlistList->at(currentPlaylistNumber)->getList()->removeOne(button);
+			(*playlistList->at(currentPlaylistNumber)->getTrackNumber())--;
 			delete button;
 		}
-		buttonsToRemove->clear();
-		for (MusicButton* button : *playlist) {
-			button->showCheckBox(false);
+		for (int i = 0; i < playlistList->at(currentPlaylistNumber)->getList()->size(); i++) {
+			playlistList->at(currentPlaylistNumber)->getList()->at(i)->setTrackNumber(i + 1);
 		}
-		for (int i = 0; i < playlist->size(); i++) {
-			playlist->at(i)->setTrackNumber(i + 1);
-		}
-		if (setFirst)
-			player->setSource(QUrl::fromLocalFile(playlist->first()->getTrackPath()));
-	}
-}*/
-
-void MainWindow::removeTracks() {
-	/*removeSelectionMode = !removeSelectionMode;
-	if (removeSelectionMode) {
-		for (MusicButton* button : *playlist) {
-			button->showCheckBox(true);
-		}
-	}
-	else {
-		bool setFirst = false;
-		bool setFirstLastMusicButton = false;
-		QList<MusicButton*>* buttonsToRemove = new QList<MusicButton*>();
-		for (int i = playlist->size() - 1; i >= 0; i--) {
-			MusicButton* button = playlist->at(i);
-			if (button->isChecked()) {
-				buttonsToRemove->append(button);
-				if (player->source() == QUrl(button->getTrackPath())) {
-					qDebug() << "current track deleted";
-					player->stop();
-					playStopButton->setIcon(QIcon("resources/icons/play.svg"));
-					setFirst = true;
-				}
-			}
-			else {
-				button->showCheckBox(false);
-			}
-		}
-		for (MusicButton* button : *buttonsToRemove) {
-			playlist->removeOne(button);
-			trackNumber--;
-			delete button;
-		}
-		buttonsToRemove->clear();
-		for (int i = 0; i < playlist->size(); i++) {
-			playlist->at(i)->setTrackNumber(i + 1);
-		}
-		for (int i = 0; i < playlist->size() - 1; i++) {
-			if (player->source() == QUrl(playlist->at(i)->getTrackPath()) && playlist->size() > 1) {
-				currentTrackNumber = playlist->at(i)->getTrackNumber() - 1;
+		for (MusicButton* button : *playlistList->at(currentPlaylistNumber)->getList()) {
+			if (player->source() == QUrl::fromLocalFile(button->getTrackPath())) {
+				currentTrackNumber = button->getTrackNumber() - 1;
 				break;
 			}
-		}
-		if (setFirst) {
-			if (!playlist->isEmpty()) {
-				player->setSource(QUrl::fromLocalFile(playlist->first()->getTrackPath()));
-				playlist->first()->setActive(true);
-				currentTrackNumber = 0;
-			}
 			else {
-				player->stop();
-				player->setSource(QUrl());
-				currentTrackNumber = -1;
+				if (!playlistList->at(currentPlaylistNumber)->getList()->isEmpty() && currentTrackNumber != -1) {
+					currentTrackNumber = 0;
+					player->setSource(QUrl::fromLocalFile(playlistList->
+						at(currentPlaylistNumber)->getList()->at(currentTrackNumber)->getTrackPath()));
+					playlistList->at(currentPlaylistNumber)->getList()->at(currentTrackNumber)->setActive(true);
+					playStopButton->setIcon(QIcon("resources/icons/play.svg"));
+				}
+				else {
+					currentTrackNumber = -1;
+				}
 			}
 		}
-	}*/
+		for (MusicButton* button : *playlistList->at(currentPlaylistNumber)->getList()) {
+			button->showCheckBox(false);
+		}
+	}
 }
 void MainWindow::addPlaylist() {
 	bool isOk;
