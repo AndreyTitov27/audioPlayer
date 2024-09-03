@@ -1,5 +1,3 @@
-#ifndef MUSIC_BUTTON_HPP
-#define MUSIC_BUTTON_HPP
 #pragma once
 #include "mainWindow.hpp"
 #include "styles.hpp"
@@ -29,16 +27,15 @@ private:
 	MainWindow* mainWindowInstance;
 	QMediaPlayer* player;
 	QString trackPath;
+	QVBoxLayout* layout;
+	QHBoxLayout* layoutH;
 	QLabel* title;
 	QLabel* number;
 	QCheckBox* checkBox;
 	int numberInt;
 	int& numberRef;
-	QVBoxLayout* layout;
-	QHBoxLayout* layoutH;
 
 private slots:
 	void mousePressEvent(QMouseEvent* event) override;
 	void mouseDoubleClickEvent(QMouseEvent* event) override;
 };
-#endif // !MUSIC_BUTTON_HPP

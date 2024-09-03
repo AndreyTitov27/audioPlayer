@@ -42,6 +42,15 @@
     <ClCompile Include="settingsButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="playlistButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="initializeWidgets.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="downloadingWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mainWindow.hpp">
@@ -60,6 +69,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="settingsButton.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="playlistButton.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="downloadingWindow.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

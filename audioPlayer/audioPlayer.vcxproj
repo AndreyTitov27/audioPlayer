@@ -177,20 +177,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="downloadingWindow.cpp" />
     <ClCompile Include="fileFunctions.cpp" />
     <ClCompile Include="fileOptions.cpp" />
+    <ClCompile Include="initializeWidgets.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainWindow.cpp" />
     <ClCompile Include="musicButton.cpp" />
     <ClCompile Include="playerFunctions.cpp" />
+    <ClCompile Include="playlistButton.cpp" />
     <ClCompile Include="settingsButton.cpp" />
     <ClCompile Include="settingsWindow.cpp" />
     <ClCompile Include="styles.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="downloadingWindow.hpp" />
     <ClInclude Include="fileFuctions.hpp" />
     <ClInclude Include="mainWindow.hpp" />
     <ClInclude Include="musicButton.hpp" />
+    <ClInclude Include="playlistButton.hpp" />
     <ClInclude Include="settingsButton.hpp" />
     <ClInclude Include="settingsWindow.hpp" />
     <ClInclude Include="styles.hpp" />

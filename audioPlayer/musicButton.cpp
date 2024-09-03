@@ -3,16 +3,16 @@
 MusicButton* MusicButton::lastMusicButton = nullptr;
 MusicButton::MusicButton(const QString titleText, const int& index, const QString track,
 	QMediaPlayer* player, int& mainWindowCurrentTrack, MainWindow* mainWindowInstance, QWidget* parent)
-	: QWidget(parent), trackPath{track}, numberRef(mainWindowCurrentTrack),
+	: QWidget(parent), trackPath{ track }, numberRef(mainWindowCurrentTrack),
 	mainWindowInstance(mainWindowInstance) {
 	setFixedHeight(40);
 	this->player = player;
 	layout = new QVBoxLayout(this);
 	layoutH = new QHBoxLayout();
-	title = new QLabel();
 	number = new QLabel();
+	title = new QLabel();
 	title->setText(titleText);
-	title->setAlignment(Qt::AlignRight);
+	title->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
 	number->setText(QString::number(index));
 	numberInt = index;
 	checkBox = new QCheckBox();
@@ -44,11 +44,12 @@ void MusicButton::mousePressEvent(QMouseEvent* event) {
 		if (lastMusicButton != nullptr && lastMusicButton != this)
 			lastMusicButton->setActive(false);
 		numberRef = numberInt - 1;
-		player->setSource(trackPath);
+		player->setSource(QUrl::fromLocalFile(trackPath));
 		mainWindowInstance->getPlayPauseButton()->setIcon(QIcon("resources/icons/play.svg"));
 		setStyleSheet(musicButtonClickedStyle);
 		lastMusicButton = this;
 	}
+	qDebug() << trackPath;
 	QWidget::mousePressEvent(event);
 }
 void MusicButton::mouseDoubleClickEvent(QMouseEvent* event) {
@@ -56,7 +57,7 @@ void MusicButton::mouseDoubleClickEvent(QMouseEvent* event) {
 		if (lastMusicButton != nullptr && lastMusicButton != this)
 			lastMusicButton->setActive(false);
 		numberRef = numberInt - 1;
-		player->setSource(trackPath);
+		player->setSource(QUrl::fromLocalFile(trackPath));
 		player->play();
 		mainWindowInstance->getPlayPauseButton()->setIcon(QIcon("resources/icons/pause.svg"));
 		setStyleSheet(musicButtonClickedStyle);

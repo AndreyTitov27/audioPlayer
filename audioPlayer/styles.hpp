@@ -22,4 +22,6 @@ extern QString playerButtonsStyle;
 extern QString musicButtonStyle;
 extern QString musicButtonClickedStyle;
 extern QString musicCheckBoxStyle;
+extern QString playlistButtonStyle;
+extern QString playlistButtonClickedStyle;
 extern QString scrollAreaStyle;

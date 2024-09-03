@@ -9,33 +9,33 @@ QString colors::playerButtons::hoverColor = "#494242";
 QString colors::playerButtons::pressColor = "#433B3B";
 
 QString manageButtonsStyle = ""
-	"QPushButton {"
-		"background-color: " + colors::manageTracksButtons::backgroundColor + ";"
-		"color: #ecf0f1;"
-		"border-radius: 0px;"
-		"padding: 5px 10px;"
-	"}"
-	"QPushButton:hover {"
-		"background-color: " + colors::manageTracksButtons::hoverColor + ";"
-	"}"
-	"QPushButton:pressed {"
-		"background-color: " + colors::manageTracksButtons::pressedColor + ";"
-		"padding: 4px 9px;"
-	"}";
+"QPushButton {"
+"background-color: " + colors::manageTracksButtons::backgroundColor + ";"
+"color: #ecf0f1;"
+"border-radius: 0px;"
+"padding: 5px 10px;"
+"}"
+"QPushButton:hover {"
+"background-color: " + colors::manageTracksButtons::hoverColor + ";"
+"}"
+"QPushButton:pressed {"
+"background-color: " + colors::manageTracksButtons::pressedColor + ";"
+"padding: 4px 9px;"
+"}";
 QString playerButtonsStyle = ""
-	"QPushButton {"
-		"background-color: " + colors::playerButtons::backgroundColor + ";"
-		"color: #ecf0f1;"
-		"border-radius: 25px;"
-		"padding 5px 10px;"
-	"}"
-	"QPushButton:hover {"
-		"background-color: " + colors::playerButtons::hoverColor + ";"
-	"}"
-	"QPushButton:pressed {"
-		"background-color: " + colors::playerButtons::pressColor + ";"
-		"padding: 4px 9px;"
-	"}";
+"QPushButton {"
+"background-color: " + colors::playerButtons::backgroundColor + ";"
+"color: #ecf0f1;"
+"border-radius: 25px;"
+"padding 5px 10px;"
+"}"
+"QPushButton:hover {"
+"background-color: " + colors::playerButtons::hoverColor + ";"
+"}"
+"QPushButton:pressed {"
+"background-color: " + colors::playerButtons::pressColor + ";"
+"padding: 4px 9px;"
+"}";
 QString musicButtonStyle = R"(
 	QWidget {
 		background-color: #4C4747;
@@ -61,9 +61,31 @@ QString musicButtonClickedStyle = R"(
 	}
 )";
 QString musicCheckBoxStyle = ""
-	"QCheckBox {"
-		"background-color: transparent;"
-	"}";
+"QCheckBox {"
+"background-color: transparent;"
+"}";
+QString playlistButtonStyle = ""
+"QWidget {"
+"background-color: #4C4747;"
+"color: #ecf0f1;"
+"}"
+"QWidget:hover {"
+"background-color: #746C6C;"
+"}"
+"QLabel {"
+"background-color: transparent;"
+"}";
+QString playlistButtonClickedStyle = ""
+"QWidget {"
+"background-color: #D20103;"
+"color: #ecf0f1;"
+"}"
+"QWidget:hover {"
+"background-color: #FD0003;"
+"}"
+"QLabel {"
+"background-color: transparent;"
+"}";
 QString scrollAreaStyle = R"(
 	QScrollBar:vertical, QScrollBar:horizontal {
 		background-color: transparent;

@@ -12,7 +12,7 @@ SettingsWindow::SettingsWindow(MainWindow* mainWindowInstance, QMainWindow* pare
 	rightCentralWidget = new QWidget();
 	rightCentralLayout = new QVBoxLayout();
 	firstLayout = nullptr;
-	
+
 	mainLayout->addLayout(leftLayout);
 	leftLayout->addWidget(customizeButton);
 

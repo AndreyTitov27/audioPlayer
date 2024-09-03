@@ -2,7 +2,7 @@
 #include "musicButton.hpp"
 
 void MainWindow::play() {
-	if (playlist->isEmpty()) return;
+	if (playlistList->at(currentPlaylistNumber)->getList()->isEmpty()) return;
 
 	if (player->source().isEmpty()) {
 		nextTrack();
@@ -20,30 +20,30 @@ void MainWindow::play() {
 }
 void MainWindow::previousTrack() {
 	bool isPlaying;
-	if (playlist->isEmpty()) return;
+	if (playlistList->at(currentPlaylistNumber)->getList()->isEmpty()) return;
 
 	isPlaying = player->isPlaying() ? true : false;
 	player->stop();
 	if (currentTrackNumber != 0) {
 		if (currentTrackNumber >= 0) {
-			MusicButton* prevTrack = playlist->at(currentTrackNumber);
+			MusicButton* prevTrack = playlistList->at(currentPlaylistNumber)->getList()->at(currentTrackNumber);
 			prevTrack->setActive(false);
 			currentTrackNumber--;
 		}
 		else {
-			currentTrackNumber = playlist->size() - 1;
+			currentTrackNumber = playlistList->at(currentPlaylistNumber)->getList()->size() - 1;
 		}
-		MusicButton* track = playlist->at(currentTrackNumber);
+		MusicButton* track = playlistList->at(currentPlaylistNumber)->getList()->at(currentTrackNumber);
 		track->setActive(true);
 		QString trackPath = track->getTrackPath();
 		player->setSource(QUrl::fromLocalFile(trackPath));
 		MusicButton::lastMusicButton = track;
 	}
 	else {
-		MusicButton* prevTrack = playlist->at(currentTrackNumber);
+		MusicButton* prevTrack = playlistList->at(currentPlaylistNumber)->getList()->at(currentTrackNumber);
 		prevTrack->setActive(false);
-		currentTrackNumber = playlist->size() - 1;
-		MusicButton* track = playlist->at(currentTrackNumber);
+		currentTrackNumber = playlistList->at(currentPlaylistNumber)->getList()->size() - 1;
+		MusicButton* track = playlistList->at(currentPlaylistNumber)->getList()->at(currentTrackNumber);
 		track->setActive(true);
 		QString trackPath = track->getTrackPath();
 		player->setSource(QUrl::fromLocalFile(trackPath));
@@ -53,30 +53,30 @@ void MainWindow::previousTrack() {
 }
 void MainWindow::nextTrack() {
 	bool isPlaying;
-	if (playlist->isEmpty()) return;
+	if (playlistList->at(currentPlaylistNumber)->getList()->isEmpty()) return;
 
 	isPlaying = player->isPlaying() ? true : false;
 	player->stop();
-	if (currentTrackNumber != playlist->size() - 1) {
+	if (currentTrackNumber != playlistList->at(currentPlaylistNumber)->getList()->size() - 1) {
 		if (currentTrackNumber >= 0) {
-			MusicButton* prevTrack = playlist->at(currentTrackNumber);
+			MusicButton* prevTrack = playlistList->at(currentPlaylistNumber)->getList()->at(currentTrackNumber);
 			prevTrack->setActive(false);
 			currentTrackNumber++;
 		}
 		else {
 			currentTrackNumber = 0;
 		}
-		MusicButton* track = playlist->at(currentTrackNumber);
+		MusicButton* track = playlistList->at(currentPlaylistNumber)->getList()->at(currentTrackNumber);
 		track->setActive(true);
 		QString trackPath = track->getTrackPath();
 		player->setSource(QUrl::fromLocalFile(trackPath));
 		MusicButton::lastMusicButton = track;
 	}
 	else {
-		MusicButton* prevTrack = playlist->at(currentTrackNumber);
+		MusicButton* prevTrack = playlistList->at(currentPlaylistNumber)->getList()->at(currentTrackNumber);
 		prevTrack->setActive(false);
 		currentTrackNumber = 0;
-		MusicButton* track = playlist->at(currentTrackNumber);
+		MusicButton* track = playlistList->at(currentPlaylistNumber)->getList()->at(currentTrackNumber);
 		track->setActive(true);
 		QString trackPath = track->getTrackPath();
 		player->setSource(QUrl::fromLocalFile(trackPath));

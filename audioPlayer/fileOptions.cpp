@@ -1,14 +1,16 @@
 #include "mainWindow.hpp"
 #include "musicButton.hpp"
+#include "playlistButton.hpp"
 #include "styles.hpp"
 
 void MainWindow::addTracks() {
-	QList<QString>* filePaths = new QList<QString>(QFileDialog::getOpenFileNames(this, "Select Multiple Files", QString(),
+	QString defaultPath = QDir::homePath();
+	QList<QString>* filePaths = new QList<QString>(QFileDialog::getOpenFileNames(this, "Select Multiple Files", defaultPath,
 		"Audio Files (*.mp3 *.wav);;All Files (*)"));
 	if (!filePaths->isEmpty()) {
 		QList<QString>* filesToRemove = new QList<QString>();
 		for (QString _path : *filePaths) {
-			for (MusicButton* musicButton : *playlist) {
+			for (MusicButton* musicButton : *playlistList->at(currentPlaylistNumber)->getList()) {
 				if (_path == musicButton->getTrackPath()) {
 					filesToRemove->append(_path);
 				}
@@ -18,10 +20,11 @@ void MainWindow::addTracks() {
 			filePaths->removeOne(file);
 		}
 		for (int i = 0; i < filePaths->size(); i++) {
-			trackNumber++;
+			(*playlistList->at(currentPlaylistNumber)->getTrackNumber())++;
 			QFileInfo fileInfo(filePaths->at(i));
-			MusicButton* newMusicButton = new MusicButton(fileInfo.completeBaseName(), trackNumber + 1, filePaths->at(i), player, currentTrackNumber, this, this);
-			playlist->append(newMusicButton);
+			MusicButton* newMusicButton = new MusicButton(fileInfo.completeBaseName(),
+				*playlistList->at(currentPlaylistNumber)->getTrackNumber() + 1, filePaths->at(i), player, currentTrackNumber, this, this);
+			playlistList->at(currentPlaylistNumber)->getList()->append(newMusicButton);
 			tracksScrollAreaLayout->addWidget(newMusicButton);
 			qDebug() << "Selected files: " << filePaths->at(i);
 		}
@@ -43,7 +46,7 @@ void MainWindow::addTracks() {
 				buttonsToRemove->append(button);
 				if (QUrl(button->getTrackPath()) == player->source())
 					setFirst = true;
-			}		
+			}
 		}
 		for (MusicButton* button : *buttonsToRemove) {
 			playlist->removeOne(button);
@@ -63,7 +66,7 @@ void MainWindow::addTracks() {
 }*/
 
 void MainWindow::removeTracks() {
-	removeSelectionMode = !removeSelectionMode;
+	/*removeSelectionMode = !removeSelectionMode;
 	if (removeSelectionMode) {
 		for (MusicButton* button : *playlist) {
 			button->showCheckBox(true);
@@ -115,5 +118,15 @@ void MainWindow::removeTracks() {
 				currentTrackNumber = -1;
 			}
 		}
+	}*/
+}
+void MainWindow::addPlaylist() {
+	bool isOk;
+	QString title = QInputDialog::getText(this, "Enter Text", "Enter Text", QLineEdit::Normal, "", &isOk);
+	if (isOk && !title.isEmpty()) {
+		playlistNumber++;
+		PlaylistButton* newPlaylistButton = new PlaylistButton(title, playlistNumber + 1, currentPlaylistNumber, this);
+		playlistList->append(newPlaylistButton);
+		playlistButtonsScrollAreaLayout->addWidget(newPlaylistButton);
 	}
 }
