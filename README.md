@@ -1,5 +1,5 @@
 # Audio Player
-Audio Player is a simple and user-friendly music player with YouTube / Youtube music downloading and album cover integration features.
+Audio Player is a simple and user-friendly desktop music player with YouTube / Youtube music downloading and album cover integration features.
 This player allows you to easily manage your playlists, download tracks, and listen to them within a single application.
 And you can customize it however you want.
 
@@ -14,6 +14,19 @@ And you can customize it however you want.
 Downloading Music: Paste a YouTube video link / Youtube music and choose a directory to save the track. Than add it to playlist you want.
 Managing Playlists: You can add and remove tracks, create new playlists, and manage the current playback.
 Album Covers: The player automatically adds album covers to downloaded tracks if available.
+
+## Tech Stack
+Programming Language: C++  
+Framework: Qt
+ - QtWidgets: For building the user interface components.  
+ - QtMultimedia: For handling audio playback.  
+ - Media Player: QMediaPlayer (from QtMultimedia) for playing audio files.  
+ - Drag-and-Drop: Custom drag-and-drop implementation for managing playlist items.
+  
+YouTube Integration: Functionality to download tracks via YouTube links written with Python and built to .exe.  
+Development Environment: Visual Studio  
+Build System: CMake  
+Compiler: MSVC
 
 ## Contributing
 If you have ideas or suggestions for improving the player, feel free to open an issue or submit a pull request.
