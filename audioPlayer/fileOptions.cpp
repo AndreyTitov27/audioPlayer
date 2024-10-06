@@ -31,8 +31,8 @@ void MainWindow::addTracks() {
 	}
 }
 void MainWindow::removeTracks() {
-	removeSelectionMode = !removeSelectionMode;
-	if (removeSelectionMode) {
+	removeTracksSelectionMode = !removeTracksSelectionMode;
+	if (removeTracksSelectionMode) {
 		for (MusicButton* button : *playlistList->at(currentPlaylistNumber)->getList()) {
 			button->showCheckBox(true);
 		}
@@ -43,6 +43,12 @@ void MainWindow::removeTracks() {
 			if (button->isChecked()) {
 				buttonsToRemove->append(button);
 			}
+		}
+		for (MusicButton* button : *playlistList->at(currentPlaylistNumber)->getList()) {
+			button->showCheckBox(false);
+		}
+		if (buttonsToRemove->isEmpty()) {
+			return;
 		}
 		for (MusicButton* button : *buttonsToRemove) {
 			playlistList->at(currentPlaylistNumber)->getList()->removeOne(button);
@@ -63,6 +69,7 @@ void MainWindow::removeTracks() {
 					player->setSource(QUrl::fromLocalFile(playlistList->
 						at(currentPlaylistNumber)->getList()->at(currentTrackNumber)->getTrackPath()));
 					playlistList->at(currentPlaylistNumber)->getList()->at(currentTrackNumber)->setActive(true);
+					MusicButton::lastMusicButton = playlistList->at(currentPlaylistNumber)->getList()->at(currentTrackNumber);
 					playStopButton->setIcon(QIcon("resources/icons/play.svg"));
 				}
 				else {
@@ -70,10 +77,10 @@ void MainWindow::removeTracks() {
 				}
 			}
 		}
-		for (MusicButton* button : *playlistList->at(currentPlaylistNumber)->getList()) {
-			button->showCheckBox(false);
-		}
 	}
+}
+void MainWindow::moveTracks() {
+	tracksDragging = !tracksDragging;
 }
 void MainWindow::addPlaylist() {
 	bool isOk;
@@ -83,5 +90,43 @@ void MainWindow::addPlaylist() {
 		PlaylistButton* newPlaylistButton = new PlaylistButton(title, playlistNumber + 1, currentPlaylistNumber, this);
 		playlistList->append(newPlaylistButton);
 		playlistButtonsScrollAreaLayout->addWidget(newPlaylistButton);
+	}
+}
+void MainWindow::removePlaylist() {
+	removePlaylistSelectionMode = !removePlaylistSelectionMode;
+	if (removePlaylistSelectionMode) {
+		for (PlaylistButton* playlist : *playlistList) {
+			playlist->showCheckBox(true);
+		}
+	}
+	else {
+		QList<PlaylistButton*>* playlistsToRemove = new QList<PlaylistButton*>();
+		for (PlaylistButton* playlist : *playlistList) {
+			if (playlist->isChecked()) {
+				playlistsToRemove->append(playlist);
+			}
+		}
+		for (PlaylistButton* playlist : *playlistList) {
+			playlist->showCheckBox(false);
+		}
+		if (playlistsToRemove->isEmpty()) {
+			return;
+		}
+		for (PlaylistButton* playlist : *playlistsToRemove) {
+			for (MusicButton* button : *playlist->getList()) {
+				playlist->getList()->removeOne(button);
+				delete button;
+			}
+			if (playlist == playlistList->at(currentPlaylistNumber)) {
+				currentPlaylistNumber = 0;
+				playlistList->at(currentPlaylistNumber)->showMusicButtons();
+			}
+			playlistNumber--;
+			playlistList->removeOne(playlist);
+			delete playlist;
+		}
+		for (int i = 0; i < playlistList->size(); i++) {
+			playlistList->at(i)->setPlaylistNumber(i + 1);
+		}
 	}
 }

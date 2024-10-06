@@ -13,23 +13,38 @@ PlaylistButton::PlaylistButton(const QString& text, const int& index, int& mainW
 	number->setFixedWidth(8);
 	number->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
 	title->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+	checkBox = new QCheckBox();
+	checkBox->setText("");
+	checkBox->setFixedSize(20, 20);
+	checkBox->setStyleSheet(musicCheckBoxStyle);
+	checkBox->setVisible(false);
 
+	layout->addWidget(checkBox, Qt::AlignLeft);
 	layout->addWidget(number);
 	layout->addWidget(title);
 
 	setLayout(layout);
 	setStyleSheet(playlistButtonStyle);
 }
+void PlaylistButton::setActive(bool active) {
+	if (!this) return;
 
-void PlaylistButton::mousePressEvent(QMouseEvent* event) {
-	if (lastPlaylistButton != nullptr || lastPlaylistButton != this) lastPlaylistButton->setStyleSheet(playlistButtonStyle);
-	if (mainWindowInstance->removeSelectionMode) {
-		mainWindowInstance->removeSelectionMode = false;
+		bool isActive = active;
+		setStyleSheet(isActive ? playlistButtonClickedStyle : playlistButtonStyle);
+}
+void PlaylistButton::setPlaylistNumber(int num) {
+	numberInt = num;
+	number->setText(QString::number(num));
+}
+void PlaylistButton::showMusicButtons() {
+	if (lastPlaylistButton != nullptr || lastPlaylistButton != this) lastPlaylistButton->setActive(false);
+	if (mainWindowInstance->removeTracksSelectionMode) {
+		mainWindowInstance->removeTracksSelectionMode = false;
 		for (MusicButton* button : *lastPlaylistButton->getList()) {
 			button->showCheckBox(false);
 		}
 	}
-	setStyleSheet(playlistButtonClickedStyle);
+	setActive(true);
 	for (int i = 0; i < mainWindowInstance->getPlaylistList()->at(numberRef)->list->size(); i++) {
 		mainWindowInstance->getPlaylistList()->at(numberRef)->list->at(i)->setVisible(false);
 	}
@@ -38,5 +53,8 @@ void PlaylistButton::mousePressEvent(QMouseEvent* event) {
 		button->setVisible(true);
 	}
 	lastPlaylistButton = this;
+}
+void PlaylistButton::mousePressEvent(QMouseEvent* event) {
+	showMusicButtons();
 	QWidget::mousePressEvent(event);
 }

@@ -1,4 +1,19 @@
 #pragma once
+
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QLayout>
+#include <QtWidgets/QMainWindow>
+#include <QtWidgets/QPushButton>
+#include <QtGui/QScreen>
+#include <QtWidgets/QSpacerItem>
+#include <QtGui/QWindow>
+#include <QtGui/qevent.h>
+#include <dwmapi.h>
+#pragma comment(lib, "dwmapi.lib")
+#include <Windows.h>
+#include <Windowsx.h>
+#include <vector>
+//
 #include "musicButton.hpp"
 #include "playlistButton.hpp"
 #include "settingsWindow.hpp"
@@ -35,14 +50,35 @@ class PlaylistButton;
 class SettingsWindow;
 class DownloadingWindow;
 class MainWindow : public QMainWindow {
+
+    HWND m_hwnd;
+    int m_resize_border_width;
+
+    QPushButton* m_minimize_btn;
+    QPushButton* m_maximize_btn;
+    QPushButton* m_close_btn;
+    
+    QWidget* m_content_widget;
+    QWidget* m_titlebar_widget;
+    QHBoxLayout* m_custom_titlebar_layout;
+
 public:
     int trackNumber;
     int currentTrackNumber;
     int playlistNumber;
     int currentPlaylistNumber;
-    bool removeSelectionMode;
+    bool removeTracksSelectionMode;
+    bool removePlaylistSelectionMode;
+    bool tracksDragging;
     bool isTrackDownloading;
-    MainWindow();
+
+    MainWindow(QWidget* parent = nullptr);
+    void setResizeBorderWidth(const int& resize_border_width);
+    void setTitlebarHeight(const int& titlebar_height);
+    QWidget& getContentWidget();
+    QWidget& getTitlebarWidget();
+    QHBoxLayout& getCustomTitlebarLayout();
+    //
     void setCurrentTrackNumber(int index) {
         currentTrackNumber = index;
     }
@@ -51,6 +87,7 @@ public:
     float getVolume() { return audioOutput->volume(); }
 
     QMediaPlayer* getPlayer() { return player; }
+    QScrollArea* getTracksScrollArea() { return tracksScrollArea; }
     QVBoxLayout* getTracksScrollAreaLayout() { return tracksScrollAreaLayout; }
     int getRepeatMode() { return repeatMode; }
     void setRepeatMode(int mode);
@@ -59,10 +96,14 @@ public:
     void updateStyles();
 
     QVBoxLayout* getPlaylistButtonsScrollAreaLayout() { return playlistButtonsScrollAreaLayout; }
+    void updateMusicButtonIndices();
 
 private:
     int repeatMode;
     bool showPlaylistsFlag;
+
+    QWidget* entireWidget;
+    QVBoxLayout* entireLayout;
 
     QWidget* centralWidget;
     QVBoxLayout* mainLayout;
@@ -70,6 +111,7 @@ private:
     QHBoxLayout* topLayout;
     QVBoxLayout* topLeftLayout;
     QHBoxLayout* settingsButtonLayout;
+    QVBoxLayout* settingsButtonLayoutV;
     QPushButton* settingsButton;
     QPushButton* downloadTrackButton;
     QHBoxLayout* trackCoverLayoutH;
@@ -124,15 +166,27 @@ private:
     DownloadingWindow* downloadingWindow = nullptr;
 
     void initializeWidgets();
+    void initializeTitlebar();
     void createPlaylistsLayout();
+    //
+    bool isMaximized;
+    bool nativeEvent(const QByteArray& event_type, void* message, qintptr* result) override;
+    bool event(QEvent* evt);
+    bool determineNonClickableWidgetUnderMouse(QLayout* layout, int x, int y);
+    void setWidgetsActiveStateInCustomTitlebar(QLayout* layout, bool active_state);
+    void onScreenChanged(QScreen* screen);
+    void onMinimizeButtonClicked();
+    void onMaximizeButtonClicked();
+    void onCloseButtonClicked();
 
 private slots:
     void showPlaylists();
     void addPlaylist();
-    //void removePlaylist();
+    void removePlaylist();
 
     void addTracks();
     void removeTracks();
+    void moveTracks();
 
     void play();
     void previousTrack();

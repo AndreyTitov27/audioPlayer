@@ -1,19 +1,43 @@
 playlist-default:
-C:/Users/Andrey/Music/Phonk/MAXPVNK - Vibe.mp3
-C:/Users/Andrey/Music/Phonk/N!GHT & Luneex - PACH! PACH!.mp3
-C:/Users/Andrey/Music/Phonk/ProdGX - BULLET.mp3
 C:/Users/Andrey/Music/Phonk/SHADXWBXRN - Anthem.mp3
-C:/Users/Andrey/Music/Phonk/SHADXWBXRN - Collapse.mp3
-C:/Users/Andrey/Music/Phonk/SHADXWBXRN - Damage.mp3
-C:/Users/Andrey/Music/Phonk/SHADXWBXRN - Knight.mp3
-C:/Users/Andrey/Music/Phonk/SHADXWBXRN - Massacre.mp3
 C:/Users/Andrey/Music/Phonk/SHADXWBXRN - Necronomicon.mp3
-C:/Users/Andrey/Music/Phonk/SHADXWBXRN - Ritual.mp3
 C:/Users/Andrey/Music/Phonk/SHADXWBXRN - Shadow Dance.mp3
+C:/Users/Andrey/Music/Phonk/SHADXWBXRN - Knight.mp3
+C:/Users/Andrey/Music/Phonk/NAOMI - SPACE! (Super Slowed).mp3
+C:/Users/Andrey/Music/Phonk/SHADXWBXRN - Damage.mp3
+C:/Users/Andrey/Music/Phonk/ProdGX - BULLET.mp3
+C:/Users/Andrey/Music/Phonk/SHADXWBXRN - Collapse.mp3
+C:/Users/Andrey/Music/Phonk/N!GHT & Luneex - PACH! PACH!.mp3
+C:/Users/Andrey/Music/Phonk/bashexx & NDDGAMEE - HELLBURN.mp3
+C:/Users/Andrey/Music/Phonk/SHADXWBXRN - Massacre.mp3
+C:/Users/Andrey/Music/Phonk/KaznidKox - SKYWARS NOBA.mp3
+C:/Users/Andrey/Music/Phonk/Archez - HELLSUCK.mp3
+C:/Users/Andrey/Music/Phonk/SHADXWBXRN - Ritual.mp3
 C:/Users/Andrey/Music/Phonk/SHADXWBXRN, 4WHEEL - KILLSTREAK.mp3
-playlist-dodList:
-C:\Users\Andrey\Music\Phonk\OBXMX\OBXMX - Sugar Addiction.mp3
-C:\Users\Andrey\Music\Phonk\OBXMX\OBXMX - budetnovoe4to-to.mp3
-playlist-new downloaded tracks:
-volume: 0.08
+C:/Users/Andrey/Music/Phonk/KUTE - wtfUNK!.mp3
+C:/Users/Andrey/Music/Phonk/KXNVRA, SHADXWBXRN - Hunter.mp3
+C:/Users/Andrey/Music/Phonk/MoonDeity, Archez - STARFALL.mp3
+C:/Users/Andrey/Music/Phonk/Phonkha, Skets - Raven.mp3
+C:/Users/Andrey/Music/Phonk/SHADXWBXRN x FLAYA PLAYA - WITCHERY.mp3
+C:/Users/Andrey/Music/Joezi & Lizwi - Amathole.mp3
+playlist-DODDD:
+C:/Users/Andrey/Music/Phonk/OBXMX/OBXMX - Africxn Sxn.mp3
+C:/Users/Andrey/Music/Phonk/OBXMX/OBXMX - Blessed Moment.mp3
+C:/Users/Andrey/Music/Phonk/OBXMX/OBXMX - budetnovoe4to-to.mp3
+C:/Users/Andrey/Music/Phonk/OBXMX/OBXMX - Cursed Repose.mp3
+C:/Users/Andrey/Music/Phonk/OBXMX/OBXMX - Desert Storm.mp3
+C:/Users/Andrey/Music/Phonk/OBXMX/OBXMX - Scarab.mp3
+C:/Users/Andrey/Music/Phonk/OBXMX/OBXMX - Sugar Addiction.mp3
+C:/Users/Andrey/Music/Phonk/OBXMX/OBXMX - Vote.mp3
+playlist-Atm:
+C:/Users/Andrey/Music/Phonk/Atmosphere/Archez - SUXCESS.mp3
+C:/Users/Andrey/Music/Phonk/Atmosphere/DriX - Elysium.mp3
+C:/Users/Andrey/Music/Phonk/Atmosphere/KoruSe - SHATTERED LOVE.mp3
+C:/Users/Andrey/Music/Phonk/Atmosphere/Lostov - Tokyo Night.mp3
+C:/Users/Andrey/Music/Phonk/Atmosphere/MAXPVNK - Vibe.mp3
+playlist-sigmoList:
+C:/Users/Andrey/Music/Joezi & Lizwi - Amathole.mp3
+C:/Users/Andrey/Music/Phonk/Atmosphere/Archez - SUXCESS.mp3
+C:/Users/Andrey/Music/Phonk/ProdGX - BULLET.mp3
+volume: 0.3
 repeat mode: 2

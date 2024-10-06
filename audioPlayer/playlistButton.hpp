@@ -2,6 +2,7 @@
 #include "mainWindow.hpp"
 #include "musicButton.hpp"
 #include "styles.hpp"
+#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QWidget>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QHBoxLayout>
@@ -15,8 +16,14 @@ public:
 		MainWindow* mainWindowInstance, QWidget* parent = nullptr);
 	QList<MusicButton*>* getList() { return list; }
 	static PlaylistButton* lastPlaylistButton;
-	int* getTrackNumber() { return trackNumber; }
+	void setActive(bool active);
 	QString getTitle() { return title->text(); }
+	int* getTrackNumber() const { return trackNumber; }
+	int getPlaylistNumber() const { return numberInt; }
+	void setPlaylistNumber(int num);
+	bool isChecked() const { return checkBox->isChecked(); }
+	void showCheckBox(bool show) { checkBox->setVisible(show); }
+	void showMusicButtons();
 
 private:
 	MainWindow* mainWindowInstance;
@@ -27,6 +34,8 @@ private:
 	int& numberRef;
 	QLabel* title;
 	QList<MusicButton*>* list;
+	QCheckBox* checkBox;
+
 
 protected:
 	void mousePressEvent(QMouseEvent* event) override;

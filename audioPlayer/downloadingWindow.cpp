@@ -6,17 +6,23 @@ DownloadingWindow::DownloadingWindow(MainWindow* mainWindowInstance, QMainWindow
 	setWindowFlags(Qt::Window | Qt::WindowCloseButtonHint);
 	centralWidget = new QWidget(this);
 	mainLayout = new QVBoxLayout(centralWidget);
+	searchButtonLayout = new QHBoxLayout();
+	searchButton = new QPushButton("search");
 	inputLayout = new QHBoxLayout();
 	inputButtonLayout = new QHBoxLayout();
 	input = new QLineEdit();
 	inputButton = new QPushButton("download");
 
+	searchButton->setFixedWidth(80);
+	connect(searchButton, &QPushButton::clicked, this, &DownloadingWindow::openSearchWindow);
 	inputButton->setFixedWidth(100);
 	inputButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-	connect(inputButton, &QPushButton::clicked, this, &DownloadingWindow::downloadTrack);
+	connect(inputButton, &QPushButton::clicked, this, &DownloadingWindow::downloadTrackFromLink);
 	inputLayout->setAlignment(Qt::AlignBottom | Qt::AlignHCenter);
 	inputButtonLayout->setAlignment(Qt::AlignTop | Qt::AlignHCenter);
-
+	searchButtonLayout->setAlignment(Qt::AlignHCenter);
+	mainLayout->addLayout(searchButtonLayout);
+	searchButtonLayout->addWidget(searchButton);
 	mainLayout->addLayout(inputLayout);
 	inputLayout->addWidget(input);
 	mainLayout->addLayout(inputButtonLayout);
@@ -27,7 +33,7 @@ DownloadingWindow::DownloadingWindow(MainWindow* mainWindowInstance, QMainWindow
 	setFixedSize(400, 200);
 }
 
-void DownloadingWindow::downloadTrack() {
+void DownloadingWindow::downloadTrackFromLink() {
 	std::string filePath = "resources/audioDownloading/input.txt";
 	if (std::filesystem::exists(filePath)) {
 		std::fstream file(filePath);
@@ -72,9 +78,8 @@ void DownloadingWindow::downloadTrack() {
 				mainWindowInstance->isTrackDownloading = true;
 				std::system("resources\\audioDownloading\\audioDownloader.exe");
 			}
-
 		}
-		});
+	});
 
 	QFutureWatcher<void>* watcher = new QFutureWatcher<void>(this);
 	connect(watcher, &QFutureWatcher<void>::finished, [this, watcher, filePath, directory]() {
@@ -98,4 +103,13 @@ void DownloadingWindow::downloadTrack() {
 		});
 	watcher->setFuture(future);
 
+}
+void DownloadingWindow::openSearchWindow() {
+	if (searchWindow == nullptr || !searchWindow) {
+		searchWindow = new SearchWindow(mainWindowInstance, this, this);
+		connect(searchWindow, &QObject::destroyed, [this]() {searchWindow = nullptr; });
+	}
+	else {
+		searchWindow->setVisible(true);
+	}
 }

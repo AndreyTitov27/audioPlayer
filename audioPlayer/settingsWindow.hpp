@@ -27,29 +27,53 @@ private:
 	QWidget* rightCentralWidget;
 	QVBoxLayout* rightCentralLayout;
 	//
-	QHBoxLayout* firstLayout;
-	QLabel* firstLine;
-	QPushButton* firstButton;
+	QHBoxLayout* layout1;
+	QLabel* line1;
+	QPushButton* button1;
 
-	QHBoxLayout* secondLayout;
-	QLabel* secondLine;
-	QPushButton* secondButton;
+	QHBoxLayout* layout2;
+	QLabel* line2;
+	QPushButton* button2;
 
-	QHBoxLayout* thirdLayout;
-	QLabel* thirdLine;
-	QPushButton* thirdButton;
+	QHBoxLayout* layout3;
+	QLabel* line3;
+	QPushButton* button3;
 
-	QHBoxLayout* fourthLayout;
-	QLabel* fourthLine;
-	QPushButton* fourthButton;
+	QHBoxLayout* layout4;
+	QLabel* line4;
+	QPushButton* button4;
 
-	QHBoxLayout* fifthLayout;
-	QLabel* fifthLine;
-	QPushButton* fifthButton;
+	QHBoxLayout* layout5;
+	QLabel* line5;
+	QPushButton* button5;
 
-	QHBoxLayout* sixthLayout;
-	QLabel* sixthLine;
-	QPushButton* sixthButton;
+	QHBoxLayout* layout6;
+	QLabel* line6;
+	QPushButton* button6;
+
+	QHBoxLayout* layout7;
+	QLabel* line7;
+	QPushButton* button7;
+
+	QHBoxLayout* layout8;
+	QLabel* line8;
+	QPushButton* button8;
+
+	QHBoxLayout* layout9;
+	QLabel* line9;
+	QPushButton* button9;
+
+	QHBoxLayout* layout10;
+	QLabel* line10;
+	QPushButton* button10;
+
+	QHBoxLayout* layout11;
+	QLabel* line11;
+	QPushButton* button11;
+
+	QHBoxLayout* layout12;
+	QLabel* line12;
+	QPushButton* button12;
 	//
 	QColor color;
 	QColor lastColor;

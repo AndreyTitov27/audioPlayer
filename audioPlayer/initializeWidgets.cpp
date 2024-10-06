@@ -4,13 +4,13 @@ void MainWindow::initializeWidgets() {
 	settingsWindow = new SettingsWindow(this, this);
 	downloadingWindow = new DownloadingWindow(this, this);
 
-	centralWidget = new QWidget(this);
-	//centralWidget->setStyleSheet("border: 1px solid #5DE2E7;");
-	mainLayout = new QVBoxLayout(centralWidget);
+	centralWidget = new QWidget();
+	mainLayout = new QVBoxLayout();
 
 	topLayout = new QHBoxLayout();
 	topLeftLayout = new QVBoxLayout();
 	settingsButtonLayout = new QHBoxLayout();
+	settingsButtonLayoutV = new QVBoxLayout();
 	settingsButton = new QPushButton(QIcon("resources/icons/settings.svg"), "", this);
 	downloadTrackButton = new QPushButton(QIcon("resources/icons/web.svg"), "", this);
 	trackCoverLayoutV = new QVBoxLayout();
@@ -72,10 +72,16 @@ void MainWindow::initializeWidgets() {
 	settingsWindow->setVisible(false);
 	downloadingWindow->setVisible(false);
 
+	centralWidget->setLayout(mainLayout);
 	mainLayout->addLayout(topLayout, 1);
 	topLayout->addLayout(topLeftLayout);
-	topLeftLayout->addLayout(settingsButtonLayout);
+	getCustomTitlebarLayout().addLayout(settingsButtonLayoutV);
+	//topLeftLayout->addLayout(settingsButtonLayout);
+	settingsButtonLayoutV->addItem(new QSpacerItem(0, 2, QSizePolicy::Minimum, QSizePolicy::Minimum));
+	settingsButtonLayoutV->addLayout(settingsButtonLayout);
+	settingsButtonLayout->addItem(new QSpacerItem(7, 0, QSizePolicy::Minimum, QSizePolicy::Minimum));
 	settingsButtonLayout->addWidget(settingsButton);
+	settingsButtonLayout->addItem(new QSpacerItem(7, 0, QSizePolicy::Minimum, QSizePolicy::Minimum));
 	settingsButtonLayout->addWidget(downloadTrackButton);
 	topLeftLayout->addLayout(trackCoverLayoutV);
 	trackCoverLayoutH->addWidget(trackCoverLabel);
@@ -90,6 +96,7 @@ void MainWindow::initializeWidgets() {
 	tracksPlaylistsLayout->addWidget(tracksScrollArea, 2);
 	tracksScrollArea->setWidget(tracksScrollAreaWidget);
 	tracksScrollAreaWidget->setLayout(tracksScrollAreaLayout);
+	tracksScrollAreaLayout->setContentsMargins(7, 0, 7, 7);
 
 	playlistButtonsScrollArea->setVisible(false);
 
@@ -124,5 +131,4 @@ void MainWindow::initializeWidgets() {
 	bottomDownRightLayout->addLayout(trackVolumeSliderLayout);
 	bottomDownRightLayout->addItem(new QSpacerItem(0, 10, QSizePolicy::Minimum, QSizePolicy::Minimum));
 
-	setCentralWidget(centralWidget);
 }
